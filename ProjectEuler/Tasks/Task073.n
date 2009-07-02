@@ -4,22 +4,22 @@ class Task073 : TaskBase
 {
   override public SolveInt() : int
   {
-		def start = 1.0 / 3.0;
-		def end = 0.5;
-		
-		def gcdIsOne(x, y)
-		{
-			if (y == 0) x == 1 else gcdIsOne(y, x % y)
-		}
-		
-		def findSum(acc, n)
-		{
-			| (_, 10001) => acc
-			| _ =>
-				findSum(
-					acc + $[ x, x in [(Ceiling(start * n) :> int)..(Floor(end * n) :> int)], gcdIsOne(x, n) ].Length,
-					n + 1)
-		}
-		findSum(0, 2) - 2
+    def start = 1.0 / 3.0;
+    def end = 0.5;
+    
+    def gcdIsOne(x, y)
+    {
+      if (y == 0) x == 1 else gcdIsOne(y, x % y)
+    }
+    
+    def findSum(acc, n)
+    {
+      | (_, 10001) => acc
+      | _ =>
+        findSum(
+          acc + $[ x, x in [(Ceiling(start * n) :> int)..(Floor(end * n) :> int)], gcdIsOne(x, n) ].Length,
+          n + 1)
+    }
+    findSum(0, 2) - 2
   }
 }

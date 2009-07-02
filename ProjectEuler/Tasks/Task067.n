@@ -7,16 +7,16 @@ class Task067 : TaskBase
 {
   override public SolveInt() : int
   {
-		// Transform into 2-dim array
-		def dataArr = File.ReadAllText("triangle.txt")
-			.Split(array[ Environment.NewLine ], StringSplitOptions.RemoveEmptyEntries)
-			.Map(x => x.Split(' ').Map(int.Parse));
-		
-		// Calculation cycles
-		for (mutable i = dataArr.Length - 1; i > 0; i--)
-			for (mutable j = 0; j < dataArr[i].Length - 1; j++)
-				dataArr[i - 1][j] += Max(dataArr[i][j], dataArr[i][j + 1]);
-		
-		dataArr[0][0]
+    // Transform into 2-dim array
+    def dataArr = File.ReadAllText("triangle.txt")
+      .Split(array[ Environment.NewLine ], StringSplitOptions.RemoveEmptyEntries)
+      .Map(x => x.Split(' ').Map(int.Parse));
+    
+    // Calculation cycles
+    for (mutable i = dataArr.Length - 1; i > 0; i--)
+      for (mutable j = 0; j < dataArr[i].Length - 1; j++)
+        dataArr[i - 1][j] += Max(dataArr[i][j], dataArr[i][j + 1]);
+    
+    dataArr[0][0]
   }
 }

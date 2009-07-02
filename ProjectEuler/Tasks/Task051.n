@@ -6,77 +6,77 @@ class Task051 : TaskBase
 {
   override public SolveInt() : int
   {
-		def seqLen = 8;
-		
-		// Working with primes
-		def primes = List();
-		mutable primesSet = Set();
-		
-		primes.Add(2);
-		primes.Add(3);
-		
-		def isPrime(n : int)
-		{
-			def sqrt = Sqrt(n) :> int;
-			
-			def primesCount = primes.Count;
-			mutable primeFlag = true;
-			for (mutable i = 0; i < primesCount && primes[i] <= sqrt && primeFlag; i++)
-				primeFlag = n % primes[i] != 0;
-			primeFlag
-		}
-		
-		def generatePrimes(maxPrime)
-		{
-			for (mutable i = primes[primes.Count - 1] + 2; i < maxPrime; i++)
-			{
-				when (isPrime(i))
-				{
-					primes.Add(i);
-					primesSet = primesSet.Add(i)
-				}
-			}
-		}
-		
-		def findMaskedDigit(cand, n, mask)
-		{
-			| _ when mask == 0 => Some(cand)
-			| _ when mask % 10 == 0 => findMaskedDigit(cand, n / 10, mask / 10)
-			| _ =>
-				match (n % 10)
-				{
-					| x when cand >= 0 && x != cand || x > (10 - seqLen) => None()
-					| x => findMaskedDigit(x, n / 10, mask / 10)
-				}
-		}
-		def seqExists(cnt, d, n, mask)
-		{
-			| _ when cnt == seqLen => true
-			| (_, 10, _, _)
-			| _ when 10 - d + cnt < seqLen => false
-			| _ => seqExists(cnt + if (primesSet.Contains(n + mask * d)) 1 else 0, d + 1, n, mask)
-		}
-		def findSeq(pi, b, masks)
-		{
-			| _ when pi >= primes.Count =>
-				def b = b * 10;
-				generatePrimes(b * 10);
-				findSeq(pi, b, b :: masks.Append(masks.Map(_ + b)))
-			| _ =>
-				def p = primes[pi];
-				if (masks.Exists(
-					x =>
-						match (findMaskedDigit(-1, p, x))
-						{
-							| Some(d) => seqExists(1, d + 1, p - x * d, x)
-							| _ => false
-						}))
-					p
-				else
-					findSeq(pi + 1, b, masks)
-		}
-		
-		generatePrimes(10);
-		findSeq(primes.Count, 1, [])
+    def seqLen = 8;
+    
+    // Working with primes
+    def primes = List();
+    mutable primesSet = Set();
+    
+    primes.Add(2);
+    primes.Add(3);
+    
+    def isPrime(n : int)
+    {
+      def sqrt = Sqrt(n) :> int;
+      
+      def primesCount = primes.Count;
+      mutable primeFlag = true;
+      for (mutable i = 0; i < primesCount && primes[i] <= sqrt && primeFlag; i++)
+        primeFlag = n % primes[i] != 0;
+      primeFlag
+    }
+    
+    def generatePrimes(maxPrime)
+    {
+      for (mutable i = primes[primes.Count - 1] + 2; i < maxPrime; i++)
+      {
+        when (isPrime(i))
+        {
+          primes.Add(i);
+          primesSet = primesSet.Add(i)
+        }
+      }
+    }
+    
+    def findMaskedDigit(cand, n, mask)
+    {
+      | _ when mask == 0 => Some(cand)
+      | _ when mask % 10 == 0 => findMaskedDigit(cand, n / 10, mask / 10)
+      | _ =>
+        match (n % 10)
+        {
+          | x when cand >= 0 && x != cand || x > (10 - seqLen) => None()
+          | x => findMaskedDigit(x, n / 10, mask / 10)
+        }
+    }
+    def seqExists(cnt, d, n, mask)
+    {
+      | _ when cnt == seqLen => true
+      | (_, 10, _, _)
+      | _ when 10 - d + cnt < seqLen => false
+      | _ => seqExists(cnt + if (primesSet.Contains(n + mask * d)) 1 else 0, d + 1, n, mask)
+    }
+    def findSeq(pi, b, masks)
+    {
+      | _ when pi >= primes.Count =>
+        def b = b * 10;
+        generatePrimes(b * 10);
+        findSeq(pi, b, b :: masks.Append(masks.Map(_ + b)))
+      | _ =>
+        def p = primes[pi];
+        if (masks.Exists(
+          x =>
+            match (findMaskedDigit(-1, p, x))
+            {
+              | Some(d) => seqExists(1, d + 1, p - x * d, x)
+              | _ => false
+            }))
+          p
+        else
+          findSeq(pi + 1, b, masks)
+    }
+    
+    generatePrimes(10);
+    findSeq(primes.Count, 1, [])
   }
 }

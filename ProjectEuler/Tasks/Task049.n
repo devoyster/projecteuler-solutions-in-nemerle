@@ -7,52 +7,52 @@ class Task049 : TaskBase
 {
   override public Solve() : string
   {
-		def maxPrime = 10000;
-		def primes = List(10000);
-		
-		def isPrime(n : int)
-		{
-			def sqrt = Sqrt(n) :> int;
-			
-			def primesCount = primes.Count;
-			mutable isPrime = true;
-			for (mutable i = 0; i < primesCount && primes[i] <= sqrt && isPrime; i++)
-				isPrime = n % primes[i] != 0;
-			isPrime
-		}
-		
-		// Generate primes
-		primes.Add(2);
-		for (mutable i = 3; i < maxPrime; i++)
-		{
-			when (isPrime(i)) primes.Add(i)
-		}
-		
-		// Remove < 1000
-		primes.RemoveRange(0, primes.FindIndex(_ > 1000));
-		
-		// Iterate thru all
-		mutable res = "";
-		primes.Find(
-			x =>
-			{
-				| _ when x == 1487 => false
-				| _ =>
-					def getSortedString(n)
-					{
-						string(n.ToString().ToCharArray().SortInplace((x, y) => x.CompareTo(y)))
-					}
-					def xstr = getSortedString(x);
-					def samePrimes = primes.FindAll(p => x < p && xstr == getSortedString(p));
-					def sameSet = Set(samePrimes);
-					
-					def neededPrime = samePrimes.Find(p => sameSet.Contains(2 * p - x));
-					when (neededPrime != 0)
-					{
-						res = x.ToString() + neededPrime.ToString() + (2 * neededPrime - x).ToString()
-					}
-					neededPrime != 0
-			});
-		res
+    def maxPrime = 10000;
+    def primes = List(10000);
+    
+    def isPrime(n : int)
+    {
+      def sqrt = Sqrt(n) :> int;
+      
+      def primesCount = primes.Count;
+      mutable isPrime = true;
+      for (mutable i = 0; i < primesCount && primes[i] <= sqrt && isPrime; i++)
+        isPrime = n % primes[i] != 0;
+      isPrime
+    }
+    
+    // Generate primes
+    primes.Add(2);
+    for (mutable i = 3; i < maxPrime; i++)
+    {
+      when (isPrime(i)) primes.Add(i)
+    }
+    
+    // Remove < 1000
+    primes.RemoveRange(0, primes.FindIndex(_ > 1000));
+    
+    // Iterate thru all
+    mutable res = "";
+    primes.Find(
+      x =>
+      {
+        | _ when x == 1487 => false
+        | _ =>
+          def getSortedString(n)
+          {
+            string(n.ToString().ToCharArray().SortInplace((x, y) => x.CompareTo(y)))
+          }
+          def xstr = getSortedString(x);
+          def samePrimes = primes.FindAll(p => x < p && xstr == getSortedString(p));
+          def sameSet = Set(samePrimes);
+          
+          def neededPrime = samePrimes.Find(p => sameSet.Contains(2 * p - x));
+          when (neededPrime != 0)
+          {
+            res = x.ToString() + neededPrime.ToString() + (2 * neededPrime - x).ToString()
+          }
+          neededPrime != 0
+      });
+    res
   }
 }

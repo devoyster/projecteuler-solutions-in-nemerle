@@ -5,11 +5,11 @@ class Task020 : TaskBase
 {
   override public SolveInt() : int
   {
-		def fact(n)
-		{
-			| 2 => IntX(2)
-			| _ => fact(n - 1) * IntX(n)
-		}
-		fact(100).ToString().Fold(0, (ch, s) => int.Parse(ch.ToString()) + s);
+    def fact(n)
+    {
+      | 2 => IntX(2)
+      | _ => fact(n - 1) * IntX(n)
+    }
+    fact(100).ToString().Fold(0, (ch, s) => int.Parse(ch.ToString()) + s);
   }
 }

@@ -6,16 +6,16 @@ class Task022 : TaskBase
 {
   override public SolveInt() : int
   {
-		using (def namesFile = File.OpenText("names.txt"))
-		{
-			def names = namesFile.ReadToEnd().Split(',').Map(_.Trim('"')).SortInplace((x, y) => x.CompareTo(y)).ToList();
-			
-			def calcSum(acc, index, l)
-			{
-				| (_, _, (h :: t)) => calcSum(acc + index * h.Fold(0, (ch, s) => Convert.ToInt32(ch) - ('A' :> int) + 1 + s), index + 1, t)
-				| _ => acc
-			}
-			calcSum(0, 1, names)
-		}
+    using (def namesFile = File.OpenText("names.txt"))
+    {
+      def names = namesFile.ReadToEnd().Split(',').Map(_.Trim('"')).SortInplace((x, y) => x.CompareTo(y)).ToList();
+      
+      def calcSum(acc, index, l)
+      {
+        | (_, _, (h :: t)) => calcSum(acc + index * h.Fold(0, (ch, s) => Convert.ToInt32(ch) - ('A' :> int) + 1 + s), index + 1, t)
+        | _ => acc
+      }
+      calcSum(0, 1, names)
+    }
   }
 }

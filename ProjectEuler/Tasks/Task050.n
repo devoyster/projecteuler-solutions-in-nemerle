@@ -7,51 +7,51 @@ class Task050 : TaskBase
 {
   override public SolveInt() : int
   {
-		def maxPrime = 1000000;
-		def primes = List(maxPrime);
-		
-		def isPrime(n : int)
-		{
-			def sqrt = Sqrt(n) :> int;
-			
-			def primesCount = primes.Count;
-			mutable isPrime = true;
-			for (mutable i = 0; i < primesCount && primes[i] <= sqrt && isPrime; i++)
-				isPrime = n % primes[i] != 0;
-			isPrime
-		}
-		
-		// Generate primes
-		primes.Add(2);
-		for (mutable i = 3; i < maxPrime; i++)
-		{
-			when (isPrime(i)) primes.Add(i)
-		}
-		def primesSet = Set(primes);
-		
-		// Generate sums of primes
-		def primesSum = List(primes.Count);
-		primesSum.Add(primes[0]);
-		for (mutable i = 1; primesSum[i - 1] <= maxPrime; ++i)
-			primesSum.Add(primesSum[i - 1] + primes[i]);
-		
-		mutable (res, maxlen) = (0, 0);
-		for (mutable i = primes.Count - 1; i >= 0; i--)
-		{
-			def p = primes[i];
-			def sumidx = primesSum.FindIndex(p <= _);
-			
-			def findLen(sum, start, end)
-			{
-				| _ when sum == p => end - start
-				| _ when sum > p => findLen(sum - primes[start], start + 1, end)
-				| _ => findLen(sum + primes[end], start, end + 1)
-			}
-			def len = findLen(primesSum[sumidx], 0, sumidx + 1);
-			when (len > maxlen)
-				(res, maxlen) = (p, len)
-		}
-		
-		res
+    def maxPrime = 1000000;
+    def primes = List(maxPrime);
+    
+    def isPrime(n : int)
+    {
+      def sqrt = Sqrt(n) :> int;
+      
+      def primesCount = primes.Count;
+      mutable isPrime = true;
+      for (mutable i = 0; i < primesCount && primes[i] <= sqrt && isPrime; i++)
+        isPrime = n % primes[i] != 0;
+      isPrime
+    }
+    
+    // Generate primes
+    primes.Add(2);
+    for (mutable i = 3; i < maxPrime; i++)
+    {
+      when (isPrime(i)) primes.Add(i)
+    }
+    def primesSet = Set(primes);
+    
+    // Generate sums of primes
+    def primesSum = List(primes.Count);
+    primesSum.Add(primes[0]);
+    for (mutable i = 1; primesSum[i - 1] <= maxPrime; ++i)
+      primesSum.Add(primesSum[i - 1] + primes[i]);
+    
+    mutable (res, maxlen) = (0, 0);
+    for (mutable i = primes.Count - 1; i >= 0; i--)
+    {
+      def p = primes[i];
+      def sumidx = primesSum.FindIndex(p <= _);
+      
+      def findLen(sum, start, end)
+      {
+        | _ when sum == p => end - start
+        | _ when sum > p => findLen(sum - primes[start], start + 1, end)
+        | _ => findLen(sum + primes[end], start, end + 1)
+      }
+      def len = findLen(primesSum[sumidx], 0, sumidx + 1);
+      when (len > maxlen)
+        (res, maxlen) = (p, len)
+    }
+    
+    res
   }
 }

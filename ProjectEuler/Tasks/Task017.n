@@ -2,20 +2,20 @@ class Task017 : TaskBase
 {
   override public SolveInt() : int
   {
-		def strLength(str)
-		{
-			str.Replace(" ", "").Length
-		}
+    def strLength(str)
+    {
+      str.Replace(" ", "").Length
+    }
   
-		def sum1To9 = strLength("one two three four five six seven eight nine");
-		def sum10To19 = strLength("ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen");
-		def sum20To90Step10 = strLength("twenty thirty forty fifty sixty seventy eighty ninety");
-		def hundred = strLength("hundred");
-		def andWord = strLength("and");
-		def oneThousand = strLength("one thousand");
-		
-		def sum1To99 = sum1To9 + sum10To19 + sum20To90Step10 * 10 + sum1To9 * 8;
-		
-		sum1To99 * 10 + (sum1To9 + hundred * 9) * 100 + andWord * 99 * 9 + oneThousand
+    def sum1To9 = strLength("one two three four five six seven eight nine");
+    def sum10To19 = strLength("ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen");
+    def sum20To90Step10 = strLength("twenty thirty forty fifty sixty seventy eighty ninety");
+    def hundred = strLength("hundred");
+    def andWord = strLength("and");
+    def oneThousand = strLength("one thousand");
+    
+    def sum1To99 = sum1To9 + sum10To19 + sum20To90Step10 * 10 + sum1To9 * 8;
+    
+    sum1To99 * 10 + (sum1To9 + hundred * 9) * 100 + andWord * 99 * 9 + oneThousand
   }
 }

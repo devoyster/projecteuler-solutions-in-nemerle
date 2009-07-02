@@ -4,19 +4,19 @@ class Task053 : TaskBase
 {
   override public SolveInt() : int
   {
-		def findExceedsMillion(acc, n, r)
-		{
-			| _ when acc > 1000000 => r
-			| _ when r > n => 0
-			| _ => findExceedsMillion(acc * (n - 1) / (r + 1), n - 1, r + 1)
-		}
-		def exceedMillionSum(acc, n)
-		{
-			| (_, 101) => acc
-			| _ =>
-				def idx = findExceedsMillion(n, n, 1);
-				exceedMillionSum(acc + if (idx > 0) n - 2 * (idx - 1) - 1 else 0, n + 1)
-		}
-		exceedMillionSum(0, 1)
+    def findExceedsMillion(acc, n, r)
+    {
+      | _ when acc > 1000000 => r
+      | _ when r > n => 0
+      | _ => findExceedsMillion(acc * (n - 1) / (r + 1), n - 1, r + 1)
+    }
+    def exceedMillionSum(acc, n)
+    {
+      | (_, 101) => acc
+      | _ =>
+        def idx = findExceedsMillion(n, n, 1);
+        exceedMillionSum(acc + if (idx > 0) n - 2 * (idx - 1) - 1 else 0, n + 1)
+    }
+    exceedMillionSum(0, 1)
   }
 }

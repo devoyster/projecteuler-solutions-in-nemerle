@@ -6,24 +6,24 @@ class Task055 : TaskBase
 {
   override public SolveInt() : int
   {
-		def reverse(n : IntX)
-		{
-			IntX(n.ToString().TrimEnd('0').ToListRev().ToString(""))
-		}
-		def isLychrel(i, n : IntX)
-		{
-			| (0, _) => isLychrel(i + 1, n + reverse(n))
-			| (50, _) => true
-			| _ =>
-				def r = reverse(n);
-				if (r == n) false else isLychrel(i + 1, n + r)
-		}
-		def countLychrel(acc, n)
-		{
-			| (_, 10000) => acc
-			| _ when isLychrel(0, n) => countLychrel(acc + 1, n + 1)
-			| _ => countLychrel(acc, n + 1)
-		}
-		countLychrel(0, 1)
+    def reverse(n : IntX)
+    {
+      IntX(n.ToString().TrimEnd('0').ToListRev().ToString(""))
+    }
+    def isLychrel(i, n : IntX)
+    {
+      | (0, _) => isLychrel(i + 1, n + reverse(n))
+      | (50, _) => true
+      | _ =>
+        def r = reverse(n);
+        if (r == n) false else isLychrel(i + 1, n + r)
+    }
+    def countLychrel(acc, n)
+    {
+      | (_, 10000) => acc
+      | _ when isLychrel(0, n) => countLychrel(acc + 1, n + 1)
+      | _ => countLychrel(acc, n + 1)
+    }
+    countLychrel(0, 1)
   }
 }

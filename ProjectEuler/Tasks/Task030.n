@@ -4,25 +4,25 @@ class Task030 : TaskBase
 {
   override public SolveInt() : int
   {
-		def pow(n, p)
-		{
-			| (_, 0) => 1
-			| _ => n * pow(n, p - 1)
-		}
-		def sum5Pow(acc, n)
-		{
-			| (_, 1000000) => acc
-			| _ =>
-				mutable res = 0;
-				mutable x = n;
-				while (x != 0)
-				{
-					res += pow(x % 10, 5);
-					x /= 10
-				}
-				
-				sum5Pow(acc + if (res == n) n else 0, n + 1)
-		}
-		sum5Pow(0, 10)
+    def pow(n, p)
+    {
+      | (_, 0) => 1
+      | _ => n * pow(n, p - 1)
+    }
+    def sum5Pow(acc, n)
+    {
+      | (_, 1000000) => acc
+      | _ =>
+        mutable res = 0;
+        mutable x = n;
+        while (x != 0)
+        {
+          res += pow(x % 10, 5);
+          x /= 10
+        }
+        
+        sum5Pow(acc + if (res == n) n else 0, n + 1)
+    }
+    sum5Pow(0, 10)
   }
 }

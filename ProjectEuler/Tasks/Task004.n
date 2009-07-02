@@ -4,16 +4,16 @@ class Task004 : TaskBase
 {
   override public SolveInt() : int
   {
-		$[ x * y | x in [100..999], y in [100..999] ]
-			.Sort((x, y) => -x.CompareTo(y))
-			.Find(
-				x =>
-				{
-					def s = x.ToString();
-					def a = s.ToCharArray();
-					Array.Reverse(a);
-					s == string(a)
-				})
-			.Value
+    $[ x * y | x in [100..999], y in [100..999] ]
+      .Sort((x, y) => -x.CompareTo(y))
+      .Find(
+        x =>
+        {
+          def s = x.ToString();
+          def a = s.ToCharArray();
+          Array.Reverse(a);
+          s == string(a)
+        })
+      .Value
   }
 }
