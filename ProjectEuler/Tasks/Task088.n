@@ -1,0 +1,58 @@
+using System.Collections.Generic;
+using System.Math;
+using Nemerle.Collections;
+using Nemerle.Utility;
+
+class Task088 : TaskBase
+{
+	override public SolveInt() : int
+  {
+		// For any k there is a sequence from (k - 2) ones * 2 * k which is product sum.
+		// For k = 12000 this number is 24000
+		def newArr(seq)
+		{
+			def arr = array(24001);
+			for (mutable i = 0; i < arr.Length; i++)
+				arr[i] = List(seq);
+			arr
+		}
+		
+		def idarr = array(12001);
+		def makeIter(iter, orig)
+		{
+			def res = newArr([]);
+			
+			def max = 24000 / (1 << iter);
+			for (mutable i = 2; i <= max; i++)
+				for (mutable j = 2; j <= 24000; j++)
+				{
+					def p = i * j;
+					when (p <= 24000)
+						foreach (d in orig[j])
+						{
+							def d = d + p - i - j;
+							when (iter + d <= 12000)
+							{
+								res[p].Add(d);
+								when (idarr[iter + d] == 0 || idarr[iter + d] > p)
+									idarr[iter + d] = p
+							}
+						}
+				}
+			
+			res
+		}
+		def makeAllIter(i, orig)
+		{
+			| (15, _) => {}
+			| _ => makeAllIter(i + 1, makeIter(i, orig))
+		}
+		makeAllIter(2, newArr([ 0 ]));
+		
+		def used = array(24001);
+		for (mutable i = 2; i <= 12000; i++)
+			used[idarr[i]] = 1;
+		
+		used.FoldI(0, (i, x, a) => a + i * x)
+  }
+}

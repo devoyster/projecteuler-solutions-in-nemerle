@@ -1,0 +1,366 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <NoStdLib>true</NoStdLib>
+    <Nemerle Condition=" '$(Nemerle)' == '' ">$(ProgramFiles)\Nemerle</Nemerle>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>"ProjectEuler"</Name>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{b2145ef4-4e2e-4412-bf66-fb766e0ff3f9}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ProjectEuler</RootNamespace>
+    <AssemblyName>ProjectEuler</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Nemerle.Macros, Version=0.9.3.24, Culture=neutral, PublicKeyToken=5291d186334f6101">
+      <Name>Nemerle.Macros</Name>
+      <AssemblyName>Nemerle.Macros.dll</AssemblyName>
+      <HintPath>C:\Program Files\Nemerle\Nemerle.Macros.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Oyster.IntX, Version=0.9.2.0, Culture=neutral, PublicKeyToken=null">
+      <Name>Oyster.IntX</Name>
+      <AssemblyName>Oyster.IntX.dll</AssemblyName>
+      <HintPath>..\..\IntX\bin\Oyster.IntX.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="$(Nemerle)\Nemerle.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="TaskBase.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.n" />
+    <Compile Include="Main.n" />
+    <Compile Include="Tasks\Task001.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task002.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task003.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task004.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task005.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task006.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task007.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task008.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task009.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task010.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task011.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task012.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task013.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task014.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task015.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task016.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task017.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task018.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task019.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task020.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task021.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task022.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task023.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task024.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task025.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task026.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task027.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task028.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task029.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task030.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task031.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task032.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task033.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task034.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task035.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task036.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task037.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task038.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task039.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task040.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task041.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task042.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task043.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task044.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task045.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task046.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task047.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task048.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task049.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task050.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task051.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task052.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task053.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task054.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task055.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task056.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task057.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task058.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task059.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task060.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task061.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task062.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task063.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task064.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task065.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task066.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task067.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task068.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task069.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task070.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task071.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task072.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task073.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task074.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task075.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task076.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task077.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task078.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task079.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task080.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task081.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task082.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task083.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task084.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task085.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task086.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task087.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task088.n">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Tasks\Task089.n">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources" />
+    <Folder Include="Tasks" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\cipher1.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\keylog.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\matrix.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\names.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\poker.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\roman.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\triangle.txt">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Resources\words.txt">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <Import Project="$(Nemerle)\Nemerle.MSBuild.targets" />
+</Project>

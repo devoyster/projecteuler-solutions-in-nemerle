@@ -1,0 +1,9 @@
+using System;
+
+class Task006 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		(101 * 100 / 2) * (101 * 100 / 2) - $[ x * x, x in [1..100] ].FoldLeft(0, _ + _)
+  }
+}

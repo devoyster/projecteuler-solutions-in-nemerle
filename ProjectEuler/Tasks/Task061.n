@@ -1,0 +1,48 @@
+using System.Collections.Generic;
+
+class Task061 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def l3 = $[ (n * (n + 1) / 2, 3), n in [45..140] ];
+		def l4 = $[ (n * n, 4), n in [32..99] ];
+		def l5 = $[ (n * (3 * n - 1) / 2, 5), n in [26..81] ];
+		def l6 = $[ (n * (2 * n - 1), 6), n in [23..70] ];
+		def l7 = $[ (n * (5 * n - 3) / 2, 7), n in [21..63] ];
+		def l8 = $[ (n * (3 * n - 2), 8), n in [19..58] ];
+
+		def nums = (l3 + l4 + l5 + l6 + l7 + l8).Filter((x, _) => x % 10 != 0 && x % 100 > 10);
+
+		def isCycle((x, a), (y, b))
+		{
+			x != y && a != b && x % 100 == y / 100
+		}
+
+		def numMap = Dictionary();
+		nums.Iter(x => numMap.Add(x, nums.Filter(isCycle(x, _))));
+
+		def calcRes(cnt, sel : list[int * int], l)
+		{
+			| (0, _, _) =>
+				if (isCycle(sel.Head, sel.Last))
+					sel.FoldLeft(0, fun((x, _), acc) { x + acc })
+				else
+					0
+			| (_, _, []) => 0
+			| _ =>
+				def findInList(l)
+				{
+					| x :: xs =>
+						match (calcRes(cnt - 1, x :: sel, numMap[x].Filter((x, a) => !sel.Exists((y, b) => y == x || b == a))))
+						{
+							| 0 => findInList(xs)
+							| res => res
+						}
+					| _ => 0
+				}
+				findInList(l)
+		}
+
+		calcRes(6, [], nums)
+  }
+}

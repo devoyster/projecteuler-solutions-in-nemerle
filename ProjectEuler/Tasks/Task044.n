@@ -1,0 +1,22 @@
+using System.Math;
+
+class Task044 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def penta(x)
+		{
+			x * (3 * x - 1) / 2
+		}
+		def isPenta(n : int)
+		{
+			def x = (1.0 + Sqrt(1.0 + 24.0 * n)) / 6.0;
+			Abs(x - Floor(x)) < 0.0001
+		}
+		
+		$[ (penta(b) + penta(a), penta(b) - penta(a)),
+			a in [1..10000], b in [1..10000], b > a,
+			isPenta(penta(b) + penta(a)), isPenta(penta(b) - penta(a)) ]
+			.FoldLeft((0, 0), fun((s, d), (accs, accd)) { if (accs == 0 || s < accs) (s, d) else (accs, accd) })[1]
+  }
+}

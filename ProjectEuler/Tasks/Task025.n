@@ -1,0 +1,17 @@
+using Oyster.Math;
+
+class Task025 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def digit1000Fibo(res, n0, n1)
+		{
+			match (n1.ToString())
+			{
+				| x when x.Length >= 1000 => res
+				| _ => digit1000Fibo(res + 1, n1, n1 + n0)
+			}
+		}
+		digit1000Fibo(3, IntX(1), IntX(2))
+  }
+}

@@ -1,0 +1,8 @@
+class Task069 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		// Product of primes while its < 1000000
+		2 * 3 * 5 * 7 * 11 * 13 * 17
+  }
+}

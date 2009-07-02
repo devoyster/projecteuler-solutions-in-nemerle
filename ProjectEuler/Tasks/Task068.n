@@ -1,0 +1,60 @@
+using System;
+using Nemerle.Collections;
+
+class Task068 : TaskBase
+{
+  override public Solve() : string
+  {
+		def state = array(11);
+		def cand = (10 :: $[1..9]).Rev();
+		
+		def findRes(first, len, iter, used)
+		{
+			def notUsed(n)
+			{
+				n > 0 && n <= 10 && !used.Contains(n)
+			}
+			
+			match (iter)
+			{
+				| 1 =>
+					def usedwf = used.Add(first);
+					def candnf = cand.Filter(_ != first);
+					state[1] = first;
+					
+					mutable res = "";
+					_ = $[ (x, y), x in candnf, y in candnf, x != y ]
+						.Find((x, y) =>
+							{
+								state[6] = x;
+								state[7] = y;
+								res = findRes(first, first + x + y, iter + 1, usedwf.Add(x).Add(y));
+								res != ""
+							});
+					if (res != "") res else findRes(first - 1, len, iter, used)
+				| 5 =>
+					state[5] = len - state[6] - state[10];
+					if (notUsed(state[5]) && Array.IndexOf(state, 10, 0, 5) >= 0)
+						[ 1, 6, 7, 2, 7, 8, 3, 8, 9, 4, 9, 10, 5, 10, 6 ]
+							.FoldLeft("", (i, acc) => acc + state[i].ToString());
+					else
+						""
+				| _ =>
+					def leftlen = len - state[iter + 5];
+					
+					mutable res = "";
+					_ = $[ (x, leftlen - x), x in cand, x > first, x != leftlen - x, notUsed(x), notUsed(leftlen - x) ]
+						.Find((x, y) =>
+							{
+								state[iter] = x;
+								state[iter + 6] = y;
+								res = findRes(first, len, iter + 1, used.Add(x).Add(y));
+								res != ""
+							});
+					res
+			}
+		}
+		
+		findRes(6, 0, 1, Set())
+  }
+}

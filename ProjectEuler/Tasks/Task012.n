@@ -1,0 +1,54 @@
+using System.Collections.Generic;
+using System.Math;
+using Nemerle.Collections;
+
+class Task012 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		// Code for primes calculation - we need it to determine prime factors
+		mutable primes = List();
+		primes.Add(2);
+		primes.Add(3);
+		
+		def calculatePrimes(n, limit)
+		{
+			| (0, _) => calculatePrimes(primes[primes.Count - 1] + 2, limit)
+			| _ when n > limit => {}
+			| _ =>
+				when (primes.TrueForAll(x => n % x != 0)) primes.Add(n);
+				calculatePrimes(n + 2, limit)
+		}
+		
+		def getPrimeFactors(map, n)
+		{
+			| (_, 1) => map
+			| _ =>
+				match (primes.Find(x => n % x == 0))
+				{
+					| 0 => map
+					| x =>
+						getPrimeFactors(
+							match (map.Find(x))
+							{
+								| Some(v) => map.Replace(x, v + 1)
+								| _ => map.Add(x, 2)
+							},
+							n / x)
+				}
+		}
+		
+		def findTriN(i)
+		{
+			def n = i * (i + 1) / 2;
+			
+			calculatePrimes(0, Sqrt(n) :> int);
+			match (getPrimeFactors(Map(), n).Fold(1, (_, v, p) => v * p))
+			{
+				| x when x > 500 => n
+				| _ => findTriN(i + 1)
+			}
+		}
+		findTriN(4)
+  }
+}

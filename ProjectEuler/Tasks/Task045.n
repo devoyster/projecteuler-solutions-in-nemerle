@@ -1,0 +1,22 @@
+using System.Math;
+
+class Task045 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def isPenta(n : int)
+		{
+			def x = (1.0 + Sqrt(1.0 + 24.0 * n)) / 6.0;
+			Abs(x - Floor(x)) < 0.0000001
+		}
+		def findHexa(idx)
+		{
+			match (idx * (2 * idx - 1))
+			{
+				| x when isPenta(x) => x
+				| _ => findHexa(idx + 1)
+			}
+		}
+		findHexa(144)
+  }
+}

@@ -1,0 +1,27 @@
+using Nemerle.Utility;
+using Oyster.Math;
+
+class Task065 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def getApprox(cnt) : (IntX * IntX)
+		{
+			def coef = match (cnt)
+			{
+				| 1 => 2
+				| x when x % 3 == 0 => x / 3 * 2
+				| _ => 1
+			}
+			match (cnt)
+			{
+				| 100 => (IntX(coef), IntX(1))
+				| _ =>
+					def (n, d) = getApprox(cnt + 1);
+					(d + n * coef, n)
+			}
+		}
+
+		getApprox(1)[0].ToString().Fold(0, (ch, acc) => acc + int.Parse(ch.ToString()))
+  }
+}

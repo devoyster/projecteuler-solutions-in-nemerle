@@ -1,0 +1,23 @@
+using System;
+using System.IO;
+using Nemerle.Collections;
+using Nemerle.Utility;
+
+class Task042 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def getSquareSet(s, n)
+		{
+			| (_, 100) => s
+			| _ => getSquareSet(s.Add(n * (n + 1) / 2), n + 1)
+		}
+		def squareSet = getSquareSet(Set(), 1);
+		
+		using (def namesFile = File.OpenText("words.txt"))
+		{
+			namesFile.ReadToEnd().Split(',').Map(_.Trim('"'))
+				.Filter(x => squareSet.Contains(x.Fold(0, (ch, s) => Convert.ToInt32(ch) - ('A' :> int) + 1 + s))).Length;
+		}
+  }
+}

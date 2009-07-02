@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Math;
+using Nemerle.Utility;
+
+class Task083 : TaskBase
+{
+	[Record]
+	class Item
+	{
+		mutable public Length : int;
+		public Weight : int;
+		public Rel : list[int];
+	}
+	
+  override public SolveInt() : int
+  {
+		def arr = File.ReadAllText("matrix.txt")
+			.Split(array[ Environment.NewLine ], StringSplitOptions.RemoveEmptyEntries)
+			.Map(s => s.Split(',').Map(int.Parse));
+		
+		def arrLen = arr.Length;
+		
+		def getVIndex(i, j)
+		{
+			i * arrLen + j
+		}
+		
+		def varr = array(arrLen * arrLen);
+		arr.IterI(
+			(i, x) =>
+				x.IterI(
+					(j, w) =>
+					{
+						varr[getVIndex(i, j)] = Item(
+							int.MaxValue,
+							w,
+							[
+								(i, j + 1),
+								(i, j - 1),
+								(i + 1, j),
+								(i - 1, j)
+							].Filter((x, y) => x >= 0 && x < arrLen && y >= 0 && y < arrLen).Map(getVIndex)
+						)
+					}));
+		varr[0].Length = varr[0].Weight;
+		
+		def h = List(varr);
+		while (h.Count > 0)
+		{
+			def f = h.Fold(h[0], (x, a) => if (x.Length < a.Length) x else a);
+			_ = h.Remove(f);
+			f.Rel.Iter(
+				i =>
+				{
+					def d = varr[i];
+					d.Length = Min(d.Length :> long, f.Length :> long + d.Weight) :> int
+				})
+		}
+		
+		varr[varr.Length - 1].Length
+  }
+}

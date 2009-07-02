@@ -1,0 +1,17 @@
+using System;
+using System.Console;
+using System.Reflection.Assembly;
+using Nemerle.Utility;
+
+def runTask(task)
+{
+	WriteLine($"$(task.GetType().Name) : $(task.Solve())")
+}
+
+def lastTask = GetExecutingAssembly().GetTypes()
+	.Filter(_.IsSubclassOf(typeof(TaskBase)))
+	.Sort((x, y) => -x.Name.CompareTo(y.Name))
+	.Head;
+runTask(Activator.CreateInstance(lastTask) :> TaskBase);
+
+_ = ReadLine()

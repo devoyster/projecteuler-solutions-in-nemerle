@@ -1,0 +1,30 @@
+// There is a better solution exists. 3/7 == 428571/999999, so solution is simply 428570
+
+using System.Math;
+
+class Task071 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		// I know that it's between 428571/1000000 and 3/7
+		def start = 0.428571;
+		def end = 3.0 / 7.0;
+		
+		def findMax((acc, m), n)
+		{
+			| (_, 1000000) => acc
+			| _ =>
+				findMax(
+					$[ x, x in [(Ceiling(start * n) :> int)..(Floor(end * n) :> int)], (x :> double) / n < end ]
+						.FoldLeft(
+							(acc, m),
+							fun (x : int, (a, m))
+							{
+								def d = (x :> double) / n;
+								if (d > m) (x, d) else (a, m)
+							}),
+					n + 1)
+		}
+		findMax((0, start), 5)
+  }
+}

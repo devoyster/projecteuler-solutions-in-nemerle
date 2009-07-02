@@ -1,0 +1,63 @@
+// There is a better solution exists - we need to just check 2 prime products (ti maximize phi)
+
+using System.Math;
+using System.Collections.Generic;
+using Nemerle.Utility;
+
+class Task070 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def primes = List();
+		primes.Add(2);
+		
+		def maxN = 10000000;
+		def maxPrime = Sqrt(maxN) :> int;
+		
+		for (mutable i = 3; i <= maxPrime; i += 2)
+		{
+			def sqrt = Sqrt(i) :> int;
+			mutable isPrime = true;
+			for (mutable j = 0; j < primes.Count && primes[j] <= sqrt && isPrime; j++)
+				isPrime = i % primes[j] != 0;
+			when (isPrime)
+				primes.Add(i);
+		}
+		
+		def getPrimeFactors(l, n, last)
+		{
+			| (_, 1, _) => l
+			| _ =>
+				def sqrt = Sqrt(n) :> int;
+				match (primes.Find(x => x > sqrt || n % x == 0))
+				{
+					| 0
+					| x when x > sqrt => if (n == last) l else  n :: l
+					| x when x == last => getPrimeFactors(l, n / x, last)
+					| x => getPrimeFactors(x :: l, n / x, x)
+				}
+		}
+		def phi(n)
+		{
+			getPrimeFactors([], n, 0).FoldLeft(n, (p, acc) => acc - acc / p)
+		}
+		
+		def getPal(n)
+		{
+			int.Parse(string(n.ToString().ToCharArray().SortInplace((x, y) => y.CompareTo(x))))
+		}
+		
+		def findBest((m : double, acc), n : int)
+		{
+			| _ when n == maxN => acc
+			| _ =>
+				def p = phi(n);
+				def r = (n :> double) / (p :> double);
+				if (getPal(n) == getPal(p) && r < m)
+					findBest((r, n), n + 1)
+				else
+					findBest((m, acc), n + 1)
+		}
+		findBest((maxN :> double, 0), 2)
+  }
+}

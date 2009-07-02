@@ -1,0 +1,53 @@
+using System.Math;
+using System.Collections.Generic;
+using Nemerle.Collections;
+
+class Task037 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def primes = List();
+		primes.Add(2);
+		
+		mutable primesSet = Set().Add(2);
+		
+		def isRightTrimmablePrime(n)
+		{
+			| 0 => true
+			| _ when !primesSet.Contains(n) => false
+			| _ => isRightTrimmablePrime(n / 10)
+		}
+		
+		def isLeftTrimmablePrime(n, b)
+		{
+			| (0, _) => true
+			| _ when !primesSet.Contains(n) => false
+			| _ => isLeftTrimmablePrime(n - n / b * b, b / 10)
+		}
+		
+		mutable trimmableCount = 0;
+		mutable trimmableSum = 0;
+		def generatePrimes(cand)
+		{
+			for (mutable i = cand; trimmableCount < 11; i += 2)
+			{
+				def primesCount = primes.Count;
+				mutable j = 0;
+				for (; j < primesCount && i % primes[j] != 0; j++) {}
+				when (j == primesCount)
+				{
+					primes.Add(i);
+					primesSet = primesSet.Add(i);
+					
+					when (i > 10 && isRightTrimmablePrime(i) && isLeftTrimmablePrime(i, Pow(10.0, Floor(Log10(i))) :> int))
+					{
+						trimmableSum += i;
+						trimmableCount++
+					}
+				}
+			}
+		}
+		generatePrimes(3);
+		trimmableSum
+  }
+}

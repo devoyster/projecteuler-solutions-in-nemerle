@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+
+class Task026 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def recurringCycleLength(l, t, n)
+		{
+			def moreThen(x)
+			{
+				if (x >= n) x else moreThen(10 * x)
+			}
+			
+			match (moreThen(t) % n)
+			{
+				| 0 => 0
+				| x =>
+					def mx = moreThen(x);
+					match (l.IndexOf(mx))
+					{
+						| -1 =>
+							l.Add(mx);
+							recurringCycleLength(l, mx, n)
+						| idx => l.Count - idx
+					}
+			}
+		}
+		
+		def findMaxCycle((res, acc), n)
+		{
+			| (_, 1) => res
+			| _ =>
+				def newlen = recurringCycleLength(List(), 1, n);
+				findMaxCycle(if (newlen > acc) (n, newlen) else (res, acc), n - 1)
+		}
+		findMaxCycle((0, 0), 999)
+  }
+}

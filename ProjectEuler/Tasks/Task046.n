@@ -1,0 +1,44 @@
+using System.Math;
+using System.Collections.Generic;
+
+class Task046 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def primes = List();
+		
+		def isPrime(n : int)
+		{
+			def sqrt = Sqrt(n) :> int;
+			
+			def primesCount = primes.Count;
+			mutable isPrime = true;
+			for (mutable i = 0; i < primesCount && primes[i] <= sqrt && isPrime; i++)
+				isPrime = n % primes[i] != 0;
+			isPrime
+		}
+		
+		// Generate primes
+		primes.Add(2);
+		mutable i = 3;
+		mutable stopFlag = false;
+		for (; !stopFlag; i += 2)
+		{
+			if (isPrime(i))
+				primes.Add(i)
+			else
+			{
+				def primesCount = primes.Count;
+				mutable isComposite = false;
+				for (mutable j = 0; j < primesCount && !isComposite; j++)
+				{
+					def sq = Sqrt((i - primes[j]) / 2);
+					isComposite = Abs(sq - Floor(sq)) < 0.00000001
+				}
+				stopFlag = !isComposite
+			}
+		}
+		
+		i - 2
+  }
+}

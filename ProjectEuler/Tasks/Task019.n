@@ -1,0 +1,9 @@
+using System;
+
+class Task019 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		$[ y * m | y in [1901..2000], m in [1..12], DateTime(y, m, 1).DayOfWeek == DayOfWeek.Sunday ].Length
+  }
+}

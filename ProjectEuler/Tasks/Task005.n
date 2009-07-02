@@ -1,0 +1,9 @@
+using System;
+
+class Task005 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		2520 * 11 * 13 * 2 * 17 * 19
+  }
+}

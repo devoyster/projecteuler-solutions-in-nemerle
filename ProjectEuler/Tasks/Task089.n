@@ -1,0 +1,39 @@
+using System;
+using System.Array;
+using System.IO;
+using Nemerle.Utility;
+
+class Task089 : TaskBase
+{
+	override public SolveInt() : int
+  {
+		def chArr = array[ 'M', 'D', 'C', 'L', 'X', 'V', 'I' ];
+		def maxArr = array[ 1000, 500, 100, 50, 10, 5, 1 ];
+		
+		def fromRoman(str)
+		{
+			str.Fold(
+				(0, int.MaxValue),
+				fun(ch, (a, l))
+				{
+					def v = maxArr[IndexOf(chArr, ch)];
+					(a + v + if (v > l) -2 * l else 0, v)
+				})[0]
+		}
+		def toRoman(s, n)
+		{
+			| (_, 0) => s
+			| _ =>
+				def idx = FindIndex(maxArr, n >= _);
+				def addIdx = (idx + 1) / 2 * 2;
+				if (idx != 0 && n + maxArr[addIdx] >= maxArr[idx - 1])
+					toRoman(s + chArr[addIdx].ToString(), n + maxArr[addIdx])
+				else
+					toRoman(s + string(chArr[idx], n / maxArr[idx]), n % maxArr[idx])
+		}
+		
+		File.ReadAllText("roman.txt")
+			.Split(array[ Environment.NewLine ], StringSplitOptions.RemoveEmptyEntries)
+			.Fold(0, (s, a) => a + s.Length - toRoman("", fromRoman(s)).Length)
+  }
+}

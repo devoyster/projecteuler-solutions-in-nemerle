@@ -1,0 +1,9 @@
+using System.Math;
+
+class Task063 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		$[ Log(10.0, 10.0 / n) :> int, n in [1..9] ].FoldLeft(0, _ + _)
+  }
+}

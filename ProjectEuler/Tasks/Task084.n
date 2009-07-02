@@ -1,0 +1,106 @@
+using System;
+using System.Collections.Generic;
+using Nemerle.Utility;
+
+class Task084 : TaskBase
+{
+	override public Solve() : string
+  {
+		def sideCnt = 4;
+		def rnd = Random();
+		def visits : array[int] = array(40);
+		
+		def prepareCards()
+		{
+			def q = Queue();
+			def l = List($[1..16]);
+			while (l.Count != 0)
+			{
+				def i = rnd.Next(l.Count);
+				q.Enqueue(l[i]);
+				l.RemoveAt(i)
+			}
+			q
+		}
+		def getCard(q)
+		{
+			def c = q.Dequeue();
+			q.Enqueue(c);
+			c
+		}
+		
+		def rs = [ 5, 15, 25, 35 ];
+		
+		def play2(cnt, curr, state, cc, ch)
+		{
+			| (0, _, _, _, _) => {}
+			| _ =>
+				def d1 = rnd.Next(sideCnt) + 1;
+				def d2 = rnd.Next(sideCnt) + 1;
+				
+				def state = if (d1 == d2) state + 1 else 0;
+				def curr =
+					if (state == 3)
+						10
+					else
+					{
+						def cand = (curr + d1 + d2) % 40;
+						match (cand)
+						{
+							| 2 | 17 | 33 =>
+								match (getCard(cc))
+								{
+									| 1 => 0
+									| 2 => 10
+									| _ => cand
+								}
+							| 7 | 22 | 36 =>
+								match (getCard(ch))
+								{
+									| 1 => 0
+									| 2 => 10
+									| 3 => 11
+									| 4 => 24
+									| 5 => 39
+									| 6 => 5
+									| 7 | 8 =>
+										match (cand)
+										{
+											| 7 => 15
+											| 22 => 25
+											| 36 => 5
+										}
+									| 9 =>
+										match (cand)
+										{
+											| 7 | 36 => 12
+											| 22 => 28
+										}
+									| 10 => cand - 3
+									| _ => cand
+								}
+							| 30 => 10
+							| _ => cand
+						}
+					}
+				
+				visits[curr]++;
+				play2(cnt - 1, curr, state % 3, cc, ch)
+		}
+		def play(cnt)
+		{
+			play2(cnt, 0, 0, prepareCards(), prepareCards())
+		}
+		
+		for (mutable i = 0; i < 100; i++)
+		{
+			play(10000);
+		}
+		
+		visits
+			.FoldI([], (i, p, l) => (i, p) :: l)
+			.Sort(fun((_, p1), (_, p2)) { p2.CompareTo(p1) })
+			.FirstN(3)
+			.FoldLeft("", fun((i, _), s) { s + i.ToString("00") })
+  }
+}

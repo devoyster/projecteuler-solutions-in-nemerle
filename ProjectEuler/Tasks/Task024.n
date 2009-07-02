@@ -1,0 +1,28 @@
+using System;
+using System.Collections.Generic;
+using Nemerle.Collections;
+
+class Task024 : TaskBase
+{
+  override public Solve() : string
+  {
+		def fact(n)
+		{
+			| 0 => 1
+			| x => x * fact (x - 1)
+		}
+		
+		def calcPerm(res, n, initperm)
+		{
+			| (_, _, "") => res
+			| _ =>
+				def f = fact(initperm.Length - 1);
+				def index = n / f;
+				calcPerm(
+					res + initperm[index].ToString(),
+					n - f * index,
+					initperm.Substring(0, index) + initperm.Substring(index + 1))
+		}
+		calcPerm("", 1000000 - 1, "0123456789")
+  }
+}

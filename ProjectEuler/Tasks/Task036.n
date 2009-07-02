@@ -1,0 +1,21 @@
+using System.Math;
+
+class Task036 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def reverse(n : int, b : int, coef : int) : int
+		{
+			| (0, _, _) => 0
+			| (_, _, 0) => reverse(n, b, Pow(b, Floor(Log(n, b))) :> int)
+			| _ => n % b * coef + reverse(n / b, b, coef / b)
+		}
+		def sumPalindrome(acc, n)
+		{
+			| (_, 1000000) => acc
+			| _ when reverse(n, 10, 0) == n && reverse(n, 2, 0) == n => sumPalindrome(acc + n, n + 1)
+			| _ => sumPalindrome(acc, n + 1)
+		}
+		sumPalindrome(0, 1)
+  }
+}

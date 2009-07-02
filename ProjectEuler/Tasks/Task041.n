@@ -1,0 +1,61 @@
+using System.Math;
+using System.Collections.Generic;
+using Nemerle.Collections;
+
+class Task041 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def maxPrime = Sqrt(10000000) :> int;
+		def primes = List(maxPrime);
+		
+		def isPrime(n : int)
+		{
+			def sqrt = Sqrt(n) :> int;
+			
+			def primesCount = primes.Count;
+			mutable isPrime = true;
+			for (mutable i = 0; i < primesCount && primes[i] <= sqrt && isPrime; i++)
+				isPrime = n % primes[i] != 0;
+			isPrime
+		}
+		
+		// Generate primes
+		primes.Add(2);
+		for (mutable i = 3; i < maxPrime; i += 2)
+		{
+			when (isPrime(i)) primes.Add(i)
+		}
+		
+		def generatePermutations(level)
+		{
+			def perm = array(level);
+			for (mutable i = 0; i < perm.Length; i++)
+				perm[i] = i + 1;
+			
+			mutable l = [];
+			def heapPermute(n)
+			{
+				| 1 =>
+					mutable res = 0;
+					for (mutable i = 0; i < perm.Length; i++)
+						res = res * 10 + perm[i];
+					l ::= res
+				| _ =>
+					for (mutable i = 0; i < n; i++)
+					{
+						heapPermute(n - 1);
+						def idx = if (n % 2 == 1) 0 else i;
+						def temp = perm[n - 1];
+						perm[n - 1] = perm[idx];
+						perm[idx] = temp;
+					}
+			}
+			
+			heapPermute(level);
+			l.Sort((x, y) => -x.CompareTo(y))
+		}
+		
+		generatePermutations(7).FindWithDefault(0, isPrime(_))
+  }
+}

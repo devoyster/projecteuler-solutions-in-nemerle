@@ -1,0 +1,19 @@
+class Task015 : TaskBase
+{
+  override public Solve() : string
+  {
+		// Dynamic programming
+		def data = array(20, 20);
+		def routesCount(x, y) : long
+		{
+			| (20, _) | (_, 20) => 1L
+			| _ =>
+				when (data[x, y] == 0L)
+				{
+					data[x, y] = routesCount(x + 1, y) + routesCount(x, y + 1)
+				}
+				data[x, y]
+		}
+		routesCount(0, 0).ToString()
+  }
+}

@@ -1,0 +1,23 @@
+using Nemerle.Utility;
+
+class Task052 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def getSortedString(n)
+		{
+			string(n.ToString().ToCharArray().SortInplace((x, y) => x.CompareTo(y)))
+		}
+		def find(n, b)
+		{
+			| _ when n * 6 >= b => find(b, b * 10)
+			| _ =>
+				def nstr = getSortedString(n);
+				if ([ 2, 3, 4, 5, 6 ].ForAll(x => nstr == getSortedString(n * x)))
+					n
+				else
+					find(n + 1, b)
+		}
+		find(10, 100)
+  }
+}

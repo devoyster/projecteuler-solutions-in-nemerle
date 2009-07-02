@@ -1,0 +1,19 @@
+using System;
+using Nemerle.Utility;
+using Oyster.Math;
+
+class Task057 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def find(cnt, i, a, b)
+		{
+			| (_, 1001, _, _) => cnt
+			| _ =>
+				def a = a + b;
+				def b = b + a;
+				find(cnt + if (b.ToString().Length > a.ToString().Length) 1 else 0, i + 1, b, a)
+		}
+		find(0, 1, IntX(3), IntX(2))
+  }
+}
