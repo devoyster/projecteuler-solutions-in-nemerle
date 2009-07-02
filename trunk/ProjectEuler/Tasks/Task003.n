@@ -5,18 +5,18 @@ class Task003 : TaskBase
 {
   override public SolveInt() : int
   {
-		def x = 317584931803;
-		def xsqrt = Sqrt(x) :> int;
-		
-		def l = List(xsqrt / 2);
-		def generatePrimes(x, max)
-		{
-			| _ when x > max => {}
-			| _ =>
-				when (l.TrueForAll(p => x % p != 0)) l.Add(x);
-				generatePrimes(x + 2, max)
-		};
-		generatePrimes(3, xsqrt);
-		l.FindLast(p : int => x % p == 0)
+    def x = 317584931803;
+    def xsqrt = Sqrt(x) :> int;
+    
+    def l = List(xsqrt / 2);
+    def generatePrimes(x, max)
+    {
+      | _ when x > max => {}
+      | _ =>
+        when (l.TrueForAll(p => x % p != 0)) l.Add(x);
+        generatePrimes(x + 2, max)
+    };
+    generatePrimes(3, xsqrt);
+    l.FindLast(p : int => x % p == 0)
   }
 }

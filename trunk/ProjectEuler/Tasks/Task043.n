@@ -7,20 +7,20 @@ class Task043 : TaskBase
 {
   override public Solve() : string
   {
-		def allSum(dividents, digits, formed : long, pow : long)
-		{
-			| _ when digits.Count == 10 =>
-				$[ x * 17L, x in [1L..58L] ]
-					.Map(n => (n, Set().ReplaceList([ n % 10L, n / 10L % 10L, n / 100L ])))
-					.FindAll((_, s) => s.Count == 3)
-					.FoldLeft([], fun((n, s), acc) { acc.Append(allSum(dividents, digits.Subtract(s), n :> long, 1000L)) })
-			| _ when digits.Count == 1 => digits.ToList().Map(x => (x :> long) * pow + formed)
-			| (d :: ds, _, _, _) =>
-				digits.ToList()
-					.Map(n => (n, (n :> long) * 100L + formed / (pow / 100L)))
-					.FindAll((_, res) => res % d == 0L)
-					.FoldLeft([], fun((n, _), acc) { acc.Append(allSum(ds, digits.Remove(n), formed + n * pow, pow * 10L)) })
-		}
-		allSum([ 13L, 11L, 7L, 5L, 3L, 2L ], Set([ 0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L ]), 0L, 0L).FoldLeft(0L, _ + _).ToString()
+    def allSum(dividents, digits, formed : long, pow : long)
+    {
+      | _ when digits.Count == 10 =>
+        $[ x * 17L, x in [1L..58L] ]
+          .Map(n => (n, Set().ReplaceList([ n % 10L, n / 10L % 10L, n / 100L ])))
+          .FindAll((_, s) => s.Count == 3)
+          .FoldLeft([], fun((n, s), acc) { acc.Append(allSum(dividents, digits.Subtract(s), n :> long, 1000L)) })
+      | _ when digits.Count == 1 => digits.ToList().Map(x => (x :> long) * pow + formed)
+      | (d :: ds, _, _, _) =>
+        digits.ToList()
+          .Map(n => (n, (n :> long) * 100L + formed / (pow / 100L)))
+          .FindAll((_, res) => res % d == 0L)
+          .FoldLeft([], fun((n, _), acc) { acc.Append(allSum(ds, digits.Remove(n), formed + n * pow, pow * 10L)) })
+    }
+    allSum([ 13L, 11L, 7L, 5L, 3L, 2L ], Set([ 0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L ]), 0L, 0L).FoldLeft(0L, _ + _).ToString()
   }
 }

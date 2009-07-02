@@ -2,11 +2,11 @@ abstract class TaskBase
 {
   virtual public Solve() : string
   {
-		SolveInt().ToString()
+    SolveInt().ToString()
   }
   
   virtual public SolveInt() : int
   {
-		0
+    0
   }
 }

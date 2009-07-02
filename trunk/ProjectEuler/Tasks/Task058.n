@@ -5,33 +5,33 @@ class Task058 : TaskBase
 {
   override public SolveInt() : int
   {
-		def primes = List();
-		primes.Add(2);
-		primes.Add(3);
+    def primes = List();
+    primes.Add(2);
+    primes.Add(3);
 
-		def isPrime(n : long)
-		{
-			def max = Math.Sqrt(n) :> int;
-			
-			for (mutable i = primes[primes.Count - 1] + 2; i <= max; i++)
-				when (isPrime(i) == 1)
-					primes.Add(i);
-			
-			mutable primeFlag = true;
-			def primesCount = primes.Count;
-			for (mutable i = 0; i < primesCount && primes[i] <= max && primeFlag; i++)
-				primeFlag = n % primes[i] != 0;
-			if (primeFlag) 1 else 0
-		}
+    def isPrime(n : long)
+    {
+      def max = Math.Sqrt(n) :> int;
+      
+      for (mutable i = primes[primes.Count - 1] + 2; i <= max; i++)
+        when (isPrime(i) == 1)
+          primes.Add(i);
+      
+      mutable primeFlag = true;
+      def primesCount = primes.Count;
+      for (mutable i = 0; i < primesCount && primes[i] <= max && primeFlag; i++)
+        primeFlag = n % primes[i] != 0;
+      if (primeFlag) 1 else 0
+    }
 
-		def calcLen(cnt, i)
-		{
-			| _ when cnt * 10 <= (i - 1) * 4 => i * 2 - 1
-			| _ =>
-				def i2 = 2 * i;
-				def n2 = (i2 :> long) * i2 + 1L;
-				calcLen(cnt + isPrime(n2 + i2) + isPrime(n2) + isPrime(n2 - i2), i + 1)
-		}
-		calcLen(3, 2)
+    def calcLen(cnt, i)
+    {
+      | _ when cnt * 10 <= (i - 1) * 4 => i * 2 - 1
+      | _ =>
+        def i2 = 2 * i;
+        def n2 = (i2 :> long) * i2 + 1L;
+        calcLen(cnt + isPrime(n2 + i2) + isPrime(n2) + isPrime(n2 - i2), i + 1)
+    }
+    calcLen(3, 2)
   }
 }

@@ -6,9 +6,9 @@ class Task056 : TaskBase
 {
   override public SolveInt() : int
   {
-		$[ IntX.Pow(a, b :> uint), a in [2..99], b in [2..99] ].FoldLeft(
-			0,
-			(x, acc) =>
-				Math.Max(acc, x.ToString().Fold(0, (ch, acc) => acc + int.Parse(ch.ToString()))))
+    $[ IntX.Pow(a, b :> uint), a in [2..99], b in [2..99] ].FoldLeft(
+      0,
+      (x, acc) =>
+        Math.Max(acc, x.ToString().Fold(0, (ch, acc) => acc + int.Parse(ch.ToString()))))
   }
 }

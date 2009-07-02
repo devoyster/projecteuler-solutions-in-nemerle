@@ -5,6 +5,6 @@ class Task016 : TaskBase
 {
   override public SolveInt() : int
   {
-		IntX.Pow(2, 1000).ToString().Fold(0, (ch, acc) => acc + int.Parse(ch.ToString()))
+    IntX.Pow(2, 1000).ToString().Fold(0, (ch, acc) => acc + int.Parse(ch.ToString()))
   }
 }

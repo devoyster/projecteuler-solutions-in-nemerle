@@ -4,27 +4,27 @@ class Task032 : TaskBase
 {
   override public SolveInt() : int
   {
-		def checkNumber(s, n, cnt)
-		{
-			| (_, 0, _) => (!s.Contains(0) && s.Count == cnt, s)
-			| _ => checkNumber(s.Replace(n % 10), n / 10, cnt)
-		}
-		def sumAll(allSet, n)
-		{
-			| (_, 98766) => allSet.Fold(0, _ + _)
-			| _ =>
-				match (checkNumber(Set(), n, 5))
-				{
-					| (true, s) =>
-						def checkProduct(x)
-						{
-							def x = (n / x) * (n % x);
-							if (x >= 1234 && x <= 9876 && checkNumber(s, x, 9)[0]) x else 0
-						}
-						sumAll(allSet.Replace(checkProduct(10000)).Replace(checkProduct(1000)), n + 1)
-					| _ => sumAll(allSet, n + 1)
-				}
-		}
-		sumAll(Set(), 12345)
+    def checkNumber(s, n, cnt)
+    {
+      | (_, 0, _) => (!s.Contains(0) && s.Count == cnt, s)
+      | _ => checkNumber(s.Replace(n % 10), n / 10, cnt)
+    }
+    def sumAll(allSet, n)
+    {
+      | (_, 98766) => allSet.Fold(0, _ + _)
+      | _ =>
+        match (checkNumber(Set(), n, 5))
+        {
+          | (true, s) =>
+            def checkProduct(x)
+            {
+              def x = (n / x) * (n % x);
+              if (x >= 1234 && x <= 9876 && checkNumber(s, x, 9)[0]) x else 0
+            }
+            sumAll(allSet.Replace(checkProduct(10000)).Replace(checkProduct(1000)), n + 1)
+          | _ => sumAll(allSet, n + 1)
+        }
+    }
+    sumAll(Set(), 12345)
   }
 }

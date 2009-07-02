@@ -4,39 +4,39 @@ class Task064 : TaskBase
 {
   override public SolveInt() : int
   {
-		def gcd(x, y)
-		{
-			if (y == 0) x else gcd(y, x % y)
-		}
-		def minimize(x, y)
-		{
-			def g = gcd(x, y);
-			(x / g, y / g)
-		}
+    def gcd(x, y)
+    {
+      if (y == 0) x else gcd(y, x % y)
+    }
+    def minimize(x, y)
+    {
+      def g = gcd(x, y);
+      (x / g, y / g)
+    }
 
-		def oddCount(cnt, n : int, max)
-		{
-			| _ when n > max => cnt
-			| _ =>
-				def cnt = cnt + match (Sqrt(n))
-				{
-					| sqrt when sqrt - Floor(sqrt) > 0.0000001 =>
-						def sqrt = sqrt :> int;
-						def (p, q) = (1, sqrt);
-						def calcPeriod(cnt, x, y)
-						{
-							| _ when cnt > 0 && x == p && y == q => cnt
-							| _ =>
-								def (_, nx) = minimize(x, n - y * y);
-								def ny = sqrt - (sqrt + y) % nx;
-								calcPeriod(cnt + 1, nx, ny)
-						}
-						calcPeriod(0, p, q) % 2
-					| _ => 0
-				}
-				oddCount(cnt, n + 1, max)
-		}
+    def oddCount(cnt, n : int, max)
+    {
+      | _ when n > max => cnt
+      | _ =>
+        def cnt = cnt + match (Sqrt(n))
+        {
+          | sqrt when sqrt - Floor(sqrt) > 0.0000001 =>
+            def sqrt = sqrt :> int;
+            def (p, q) = (1, sqrt);
+            def calcPeriod(cnt, x, y)
+            {
+              | _ when cnt > 0 && x == p && y == q => cnt
+              | _ =>
+                def (_, nx) = minimize(x, n - y * y);
+                def ny = sqrt - (sqrt + y) % nx;
+                calcPeriod(cnt + 1, nx, ny)
+            }
+            calcPeriod(0, p, q) % 2
+          | _ => 0
+        }
+        oddCount(cnt, n + 1, max)
+    }
 
-		oddCount(0, 2, 10000)
+    oddCount(0, 2, 10000)
   }
 }

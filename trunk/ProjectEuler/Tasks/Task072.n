@@ -6,38 +6,38 @@ class Task072 : TaskBase
 {
   override public Solve() : string
   {
-		def primes = List();
-		primes.Add(2);
-		
-		def maxN = 1000000;
-		def maxPrime = Sqrt(maxN) :> int;
-		
-		for (mutable i = 3; i <= maxPrime; i += 2)
-		{
-			def sqrt = Sqrt(i) :> int;
-			mutable isPrime = true;
-			for (mutable j = 0; j < primes.Count && primes[j] <= sqrt && isPrime; j++)
-				isPrime = i % primes[j] != 0;
-			when (isPrime)
-				primes.Add(i);
-		}
-		
-		def phi(l : int, n : int) : int
-		{
-			| (_, 1) => l
-			| _ =>
-				def sqrt = Sqrt(n) :> int;
-				match (primes.Find(x => x > sqrt || n % x == 0))
-				{
-					| 0
-					| x when x > sqrt => l - l / n
-					| x =>
-						mutable r = n;
-						while (r % x == 0) r /= x;
-						phi(l - l / x, r)
-				}
-		}
-		
-		$[ phi(x, x), x in [2..maxN] ].FoldLeft(0L, _ + _).ToString()
+    def primes = List();
+    primes.Add(2);
+    
+    def maxN = 1000000;
+    def maxPrime = Sqrt(maxN) :> int;
+    
+    for (mutable i = 3; i <= maxPrime; i += 2)
+    {
+      def sqrt = Sqrt(i) :> int;
+      mutable isPrime = true;
+      for (mutable j = 0; j < primes.Count && primes[j] <= sqrt && isPrime; j++)
+        isPrime = i % primes[j] != 0;
+      when (isPrime)
+        primes.Add(i);
+    }
+    
+    def phi(l : int, n : int) : int
+    {
+      | (_, 1) => l
+      | _ =>
+        def sqrt = Sqrt(n) :> int;
+        match (primes.Find(x => x > sqrt || n % x == 0))
+        {
+          | 0
+          | x when x > sqrt => l - l / n
+          | x =>
+            mutable r = n;
+            while (r % x == 0) r /= x;
+            phi(l - l / x, r)
+        }
+    }
+    
+    $[ phi(x, x), x in [2..maxN] ].FoldLeft(0L, _ + _).ToString()
   }
 }

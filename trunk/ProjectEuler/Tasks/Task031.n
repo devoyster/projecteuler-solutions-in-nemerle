@@ -2,17 +2,17 @@ class Task031 : TaskBase
 {
   override public SolveInt() : int
   {
-		def coins = [ 1, 2, 5, 10, 20, 50, 100, 200 ];
-		
-		def perms = array(201, 201);
-		def permCount(n, maxCoin)
-		{
-			| (0, _) | (1, _) => 1
-			| _ =>
-				when (perms[n, maxCoin] == 0)
-					perms[n, maxCoin] = coins.FoldRight(0, (x, acc) => acc + if (n >= x && x <= maxCoin) permCount(n - x, x) else 0);
-				perms[n, maxCoin]
-		}
-		permCount(200, 200)
+    def coins = [ 1, 2, 5, 10, 20, 50, 100, 200 ];
+    
+    def perms = array(201, 201);
+    def permCount(n, maxCoin)
+    {
+      | (0, _) | (1, _) => 1
+      | _ =>
+        when (perms[n, maxCoin] == 0)
+          perms[n, maxCoin] = coins.FoldRight(0, (x, acc) => acc + if (n >= x && x <= maxCoin) permCount(n - x, x) else 0);
+        perms[n, maxCoin]
+    }
+    permCount(200, 200)
   }
 }

@@ -6,80 +6,80 @@ class Task023 : TaskBase
 {
   override public SolveInt() : int
   {
-		def primes = List();
-		primes.Add(2);
-		primes.Add(3);
+    def primes = List();
+    primes.Add(2);
+    primes.Add(3);
 
-		def generatePrimes(cand, max)
-		{
-			| (0, _) => generatePrimes(primes[primes.Count - 1], max)
-			| _ when cand > max => {}
-			| _ =>
-				when (primes.TrueForAll(x => cand % x != 0))
-					primes.Add(cand);
-				generatePrimes(cand + 2, max)
-		}
+    def generatePrimes(cand, max)
+    {
+      | (0, _) => generatePrimes(primes[primes.Count - 1], max)
+      | _ when cand > max => {}
+      | _ =>
+        when (primes.TrueForAll(x => cand % x != 0))
+          primes.Add(cand);
+        generatePrimes(cand + 2, max)
+    }
 
-		def maxValue = 28123;
-		generatePrimes(0, maxValue);
+    def maxValue = 28123;
+    generatePrimes(0, maxValue);
 
-		def primeFactors(l, n)
-		{
-			match (primes.Find(x => n % x == 0))
-			{
-				| 0 => l
-				| x =>
-					primeFactors(
-						match (l)
-						{
-							| ((y, c) :: t) when y == x => (y, c + 1) :: t
-							| _ => (x, 1) :: l
-						},
-						n / x)
-			}
-		}
+    def primeFactors(l, n)
+    {
+      match (primes.Find(x => n % x == 0))
+      {
+        | 0 => l
+        | x =>
+          primeFactors(
+            match (l)
+            {
+              | ((y, c) :: t) when y == x => (y, c + 1) :: t
+              | _ => (x, 1) :: l
+            },
+            n / x)
+      }
+    }
 
-		def allFactors(pf)
-		{
-			| (x, c) :: t =>
-				def l = allFactors(t);
-				mutable res = [];
-				mutable p = 1;
-				for (mutable i = 0; i < c + 1; i++)
-				{
-					res = res.Append(l.Map(_ * p));
-					p *= x
-				}
-				res
-			| _ => [ 1 ]
-		}
+    def allFactors(pf)
+    {
+      | (x, c) :: t =>
+        def l = allFactors(t);
+        mutable res = [];
+        mutable p = 1;
+        for (mutable i = 0; i < c + 1; i++)
+        {
+          res = res.Append(l.Map(_ * p));
+          p *= x
+        }
+        res
+      | _ => [ 1 ]
+    }
 
-		def sumAllRealFactors(n)
-		{
-			allFactors(primeFactors([], n)).FoldLeft(0, _ + _) - n
-		}
+    def sumAllRealFactors(n)
+    {
+      allFactors(primeFactors([], n)).FoldLeft(0, _ + _) - n
+    }
 
-		def getAbundants(l, n)
-		{
-			| (_, 10) => l
-			| _ => getAbundants(if (n < sumAllRealFactors(n)) n :: l else l, n - 1)
-		}
+    def getAbundants(l, n)
+    {
+      | (_, 10) => l
+      | _ => getAbundants(if (n < sumAllRealFactors(n)) n :: l else l, n - 1)
+    }
 
-		def abundants = getAbundants([], maxValue);
-		def abundantsSet = Set(abundants);
+    def abundants = getAbundants([], maxValue);
+    def abundantsSet = Set(abundants);
 
-		def sumTotal(acc, n)
-		{
-			| (_, 0) => acc
-			| _ =>
-				sumTotal(
-					acc + match (abundants.Find(x => x > n || abundantsSet.Contains(n - x)))
-					{
-						| Some(x) when x <= n => 0
-						| _ => n
-					},
-					n - 1)
-		}
-		sumTotal(0, maxValue)
+    def sumTotal(acc, n)
+    {
+      | (_, 0) => acc
+      | _ =>
+        sumTotal(
+          acc + match (abundants.Find(x => x > n || abundantsSet.Contains(n - x)))
+          {
+            | Some(x) when x <= n => 0
+            | _ => n
+          },
+          n - 1)
+    }
+    sumTotal(0, maxValue)
   }
 }

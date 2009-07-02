@@ -6,44 +6,44 @@ class Task035 : TaskBase
 {
   override public SolveInt() : int
   {
-		def maxPrimes = 1000000;
-		
-		def primes = List(maxPrimes);
-		primes.Add(2);
-		primes.Add(3);
-		
-		def generatePrimes(cand, max)
-		{
-			def cand = if (cand == 0) primes[primes.Count - 1] else cand;
-			for (mutable i = cand; i < max; i += 2)
-			{
-				def primesCount = primes.Count;
-				mutable j = 0;
-				for (; j < primesCount && i % primes[j] != 0; j++) {}
-				when (j == primesCount)
-					primes.Add(i);
-			}
-		}
-		generatePrimes(0, maxPrimes);
-		
-		def primesSet = Set(primes);
-		
-		def isCyclicPrime(n, prime, b)
-		{
-			| (0, _, _) => isCyclicPrime(prime % b * 10 + prime / b, prime, b)
-			| _ when n == prime => true
-			| _ when !primesSet.Contains(n) => false
-			| _ => isCyclicPrime(n % b * 10 + n / b, prime, b)
-		}
-		
-		mutable cnt = 0;
-		def primesCount = primes.Count;
-		for (mutable i = 0; i < primesCount; i++)
-		{
-			when (isCyclicPrime(0, primes[i], Pow(10.0, Floor(Log10(primes[i]))) :> int))
-				cnt++
-		}
-		
-		cnt
+    def maxPrimes = 1000000;
+    
+    def primes = List(maxPrimes);
+    primes.Add(2);
+    primes.Add(3);
+    
+    def generatePrimes(cand, max)
+    {
+      def cand = if (cand == 0) primes[primes.Count - 1] else cand;
+      for (mutable i = cand; i < max; i += 2)
+      {
+        def primesCount = primes.Count;
+        mutable j = 0;
+        for (; j < primesCount && i % primes[j] != 0; j++) {}
+        when (j == primesCount)
+          primes.Add(i);
+      }
+    }
+    generatePrimes(0, maxPrimes);
+    
+    def primesSet = Set(primes);
+    
+    def isCyclicPrime(n, prime, b)
+    {
+      | (0, _, _) => isCyclicPrime(prime % b * 10 + prime / b, prime, b)
+      | _ when n == prime => true
+      | _ when !primesSet.Contains(n) => false
+      | _ => isCyclicPrime(n % b * 10 + n / b, prime, b)
+    }
+    
+    mutable cnt = 0;
+    def primesCount = primes.Count;
+    for (mutable i = 0; i < primesCount; i++)
+    {
+      when (isCyclicPrime(0, primes[i], Pow(10.0, Floor(Log10(primes[i]))) :> int))
+        cnt++
+    }
+    
+    cnt
   }
 }

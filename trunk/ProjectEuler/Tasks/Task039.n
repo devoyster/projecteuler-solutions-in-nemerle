@@ -6,23 +6,23 @@ class Task039 : TaskBase
 {
   override public SolveInt() : int
   {
-		def squares = $[ x * x, x in [0..999] ].ToArray();
-		def squaresSet = Set(squares);
-		def perimeters = array(1000);
-		
-		for (mutable i = 1; i < squares.Length; ++i)
-		{
-			for (mutable j = 1; j < squares.Length; ++j)
-			{
-				def s = squares[i] + squares[j];
-				when (squaresSet.Contains(s))
-				{
-					def p = i + j + Sqrt(s) :> int;
-					when (p < 1000)
-						perimeters[p] = perimeters[p] + 1
-				}
-			}
-		}
-		perimeters.FoldI(0, (i, x, acc) => if (x > perimeters[acc]) i else acc)
+    def squares = $[ x * x, x in [0..999] ].ToArray();
+    def squaresSet = Set(squares);
+    def perimeters = array(1000);
+    
+    for (mutable i = 1; i < squares.Length; ++i)
+    {
+      for (mutable j = 1; j < squares.Length; ++j)
+      {
+        def s = squares[i] + squares[j];
+        when (squaresSet.Contains(s))
+        {
+          def p = i + j + Sqrt(s) :> int;
+          when (p < 1000)
+            perimeters[p] = perimeters[p] + 1
+        }
+      }
+    }
+    perimeters.FoldI(0, (i, x, acc) => if (x > perimeters[acc]) i else acc)
   }
 }

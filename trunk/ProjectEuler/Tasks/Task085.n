@@ -2,29 +2,29 @@ using System.Math;
 
 class Task085 : TaskBase
 {
-	override public SolveInt() : int
+  override public SolveInt() : int
   {
-		// Formula for calc is wh(w + 1)(h + 1)/4. We know that must be close to 2000000.
-		// Also (wh)^2 < wh(w + 1)(h + 1) < ((w+1)(h+1))^2
-		def wha = Sqrt(2000000 * 4);
-		def whs = Sqrt(wha) :> int;
-		
-		def findBest((s, d), x)
-		{
-			| (_, 0)  => s
-			| _ =>
-				def y = (wha / x) :> int;
-				findBest(
-					[ (x, y), (x, y - 1) ]
-						.FoldLeft(
-							(s, d),
-							fun((x, y), (s, d))
-							{
-								def d2 = Abs(2000000 - x * y * (x + 1) * (y + 1) / 4);
-								if (d2 < d) (x * y, d2) else (s, d)
-							}),
-					x - 1)
-		}
-		findBest((1, int.MaxValue), whs)
+    // Formula for calc is wh(w + 1)(h + 1)/4. We know that must be close to 2000000.
+    // Also (wh)^2 < wh(w + 1)(h + 1) < ((w+1)(h+1))^2
+    def wha = Sqrt(2000000 * 4);
+    def whs = Sqrt(wha) :> int;
+    
+    def findBest((s, d), x)
+    {
+      | (_, 0)  => s
+      | _ =>
+        def y = (wha / x) :> int;
+        findBest(
+          [ (x, y), (x, y - 1) ]
+            .FoldLeft(
+              (s, d),
+              fun((x, y), (s, d))
+              {
+                def d2 = Abs(2000000 - x * y * (x + 1) * (y + 1) / 4);
+                if (d2 < d) (x * y, d2) else (s, d)
+              }),
+          x - 1)
+    }
+    findBest((1, int.MaxValue), whs)
   }
 }

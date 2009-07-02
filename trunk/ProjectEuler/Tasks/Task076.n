@@ -4,16 +4,16 @@ class Task076 : TaskBase
 {
   override public SolveInt() : int
   {
-		def maxN = 100;
-		def precalc = array(maxN + 1, maxN + 1);
-		def getCount(n, m)
-		{
-			| (0, _) | (1, _) => 1
-			| _ =>
-				when (precalc[n, m] == 0)
-					precalc[n, m] = $[ getCount(n - x, x), x in [1..Min(m, n)] ].FoldLeft(0, _ + _);
-				precalc[n, m]
-		}
-		getCount(maxN, maxN) - 1
+    def maxN = 100;
+    def precalc = array(maxN + 1, maxN + 1);
+    def getCount(n, m)
+    {
+      | (0, _) | (1, _) => 1
+      | _ =>
+        when (precalc[n, m] == 0)
+          precalc[n, m] = $[ getCount(n - x, x), x in [1..Min(m, n)] ].FoldLeft(0, _ + _);
+        precalc[n, m]
+    }
+    getCount(maxN, maxN) - 1
   }
 }

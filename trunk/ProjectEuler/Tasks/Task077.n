@@ -5,65 +5,65 @@ class Task077 : TaskBase
 {
   override public SolveInt() : int
   {
-		def primes = List();
-		primes.Add(2);
-		primes.Add(3);
+    def primes = List();
+    primes.Add(2);
+    primes.Add(3);
 
-		def isPrime(n : int)
-		{
-			def max = Sqrt(n) :> int;
-			
-			mutable primeFlag = true;
-			def primesCount = primes.Count;
-			for (mutable i = 0; i < primesCount && primes[i] <= max && primeFlag; i++)
-				primeFlag = n % primes[i] != 0;
-			primeFlag
-		}
-		def isPrimeNum(n)
-		{
-			if (isPrime(n)) 1 else 0
-		}
-		def generatePrimes(max)
-		{
-			for (mutable i = primes[primes.Count - 1] + 2; i <= max; i++)
-				when (isPrime(i))
-					primes.Add(i)
-		}
+    def isPrime(n : int)
+    {
+      def max = Sqrt(n) :> int;
+      
+      mutable primeFlag = true;
+      def primesCount = primes.Count;
+      for (mutable i = 0; i < primesCount && primes[i] <= max && primeFlag; i++)
+        primeFlag = n % primes[i] != 0;
+      primeFlag
+    }
+    def isPrimeNum(n)
+    {
+      if (isPrime(n)) 1 else 0
+    }
+    def generatePrimes(max)
+    {
+      for (mutable i = primes[primes.Count - 1] + 2; i <= max; i++)
+        when (isPrime(i))
+          primes.Add(i)
+    }
 
-		def lenCache = Dictionary();
-		def getLen(x, y)
-		{
-			| (1, _) => 0
-			| _ =>
-				mutable value;
-				when (!lenCache.TryGetValue((x, y), out value))
-				{
-					value = match (x)
-					{
-						| 0 => isPrimeNum(y)
-						| _ =>
-							def min = Min(x, y);
-							generatePrimes(min);
-							
-							mutable s = 0;
-							def primesCount = primes.Count;
-							for (mutable i = 0; i < primesCount && primes[i] <= min; i++)
-								s += getLen(x - primes[i], primes[i]);
-							s
-					}
-					lenCache.Add((x, y), value)
-				}
-				value
-		}
-		def getLen2(n)
-		{
-			getLen(n, n) - isPrimeNum(n)
-		}
-		def findLen(n)
-		{
-			if (getLen2(n) > 5000) n else findLen(n + 1)
-		}
+    def lenCache = Dictionary();
+    def getLen(x, y)
+    {
+      | (1, _) => 0
+      | _ =>
+        mutable value;
+        when (!lenCache.TryGetValue((x, y), out value))
+        {
+          value = match (x)
+          {
+            | 0 => isPrimeNum(y)
+            | _ =>
+              def min = Min(x, y);
+              generatePrimes(min);
+              
+              mutable s = 0;
+              def primesCount = primes.Count;
+              for (mutable i = 0; i < primesCount && primes[i] <= min; i++)
+                s += getLen(x - primes[i], primes[i]);
+              s
+          }
+          lenCache.Add((x, y), value)
+        }
+        value
+    }
+    def getLen2(n)
+    {
+      getLen(n, n) - isPrimeNum(n)
+    }
+    def findLen(n)
+    {
+      if (getLen2(n) > 5000) n else findLen(n + 1)
+    }
 
-		findLen(3)
+    findLen(3)
   }
 }
