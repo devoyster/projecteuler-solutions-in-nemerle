@@ -1,0 +1,18 @@
+using System.Collections.Generic;
+
+class Task007 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def l = List(10000);
+		def generatePrimes(x)
+		{
+			| _ when l.Count > 10000 => {}
+			| _ =>
+				when (l.TrueForAll(p => x % p != 0)) l.Add(x);
+				generatePrimes(x + 2)
+		};
+		generatePrimes(3);
+		l[9999]
+  }
+}

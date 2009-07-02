@@ -1,0 +1,121 @@
+using System;
+using System.IO;
+using System.Math;
+using Nemerle.Utility;
+
+class Task054 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def mapCard(card)
+		{
+			def value = match (card[0])
+			{
+				| 'T' => 10
+				| 'J' => 11
+				| 'Q' => 12
+				| 'K' => 13
+				| 'A' => 14
+				| ch => int.Parse(ch.ToString())
+			}
+			(value, card[1])
+		}
+		def calcStat(stat, l)
+		{
+			| (_, v :: xs) =>
+				calcStat(
+					match (stat)
+					{
+						| (sv, sc) :: sxs when sv == v => (sv, sc + 1) :: sxs
+						| _ => (v, 1) :: stat
+					},
+					xs)
+			| _ => stat
+		}
+		def handValue(hand)
+		{
+			def hand = hand.Map(mapCard(_)).Sort(fun((v1, s1), (v2, s2)) { v2.CompareTo(v1) });
+			def skinTheSame = !hand.Exists((v, s) => s != hand.Head[1]);
+			def hand = hand.Map((v, s) => v);
+			
+			def stat = calcStat([], hand).Filter((v, c) => c > 1).Sort(fun((v1, c1), (v2, c2)) { c2.CompareTo(c1) });
+			
+			def (t1 : int, t2 : int) = match (hand)
+			{
+				| [ a, _, _, _, b ] when skinTheSame && a - b == 4 => (9, a)
+				| a :: _ when skinTheSame => (6, a)
+				| [ a, _, _, _, b ] when stat.Length == 0 && a - b == 4 => (5, a)
+				| m :: _ =>
+					match (stat)
+					{
+						| [ (a, 4) ] => (8, a)
+						| [ (a, 3), (b, 2) ] => (7, a)
+						| [ (a, 3) ] => (4, a)
+						| [ (a, 2), (b, 2) ] => (3, if (a > b) a * 16 + b else b * 16 + a)
+						| [ (a, 2) ] => (2, a)
+						| _ => (1, m)
+					}
+			}
+			t1 * 65536L * 256L * 16L + t2 * 65536L * 16L + hand.FoldLeft(0L, (x : int, acc) => acc * 16L + x)
+		}
+		
+		// Test
+		[
+			[ "TD", "QD", "JD", "KD", "AD" ],
+			[ "7D", "3D", "4D", "5D", "6D" ],
+			
+			[ "3D", "3E", "3A", "3C", "5D" ],
+			[ "2D", "2E", "2A", "2C", "8D" ],
+			[ "TD", "TE", "TA", "TC", "AD" ],
+			
+			[ "2D", "2E", "2A", "7C", "7D" ],
+			[ "1D", "1E", "1A", "8C", "8D" ],
+			[ "2D", "2E", "2A", "8C", "8D" ],
+			
+			[ "8D", "3D", "4D", "5D", "6D" ],
+			
+			[ "7D", "3E", "4D", "5D", "6D" ],
+			[ "QD", "TE", "QD", "TD", "AD" ],
+			
+			[ "3D", "3E", "3A", "7D", "TD" ],
+			[ "3D", "3E", "3A", "8D", "TD" ],
+			[ "2D", "2E", "2A", "8D", "AD" ],
+			
+			[ "2D", "3E", "2A", "8D", "3D" ],
+			[ "2D", "4E", "2A", "AD", "4D" ],
+			[ "1D", "3E", "1A", "AD", "3D" ],
+			[ "2D", "3E", "2A", "AD", "3D" ],
+			
+			[ "2D", "3E", "2A", "4D", "5D" ],
+			[ "2D", "3E", "2A", "4D", "AD" ],
+			[ "1D", "3E", "1A", "4D", "AD" ],
+			
+			[ "1D", "3E", "7A", "4D", "AD" ],
+			[ "1D", "3E", "7A", "4D", "QD" ],
+			
+			[ "5H", "5C", "6S", "7S", "KD" ],
+			[ "2C", "3S", "8S", "8D", "TD" ],
+			[ "5D", "8C", "9S", "JS", "AC" ],
+			[ "2C", "5C", "7D", "8S", "QH" ],
+			[ "2D", "9C", "AS", "AH", "AC" ],
+			[ "3D", "6D", "7D", "TD", "QD" ],
+			[ "4D", "6S", "9H", "QH", "QC" ],
+			[ "3D", "6D", "7H", "QD", "QS" ]
+		].Iter(x => Console.WriteLine($"$x => $(handValue(x).ToString(\"X\"))"));
+		Console.ReadLine();
+		
+		using (def pokerFile = File.OpenText("poker.txt"))
+		{
+			pokerFile.ReadToEnd()
+				.Split(array [ Environment.NewLine ], StringSplitOptions.RemoveEmptyEntries)
+				.Fold(
+					0,
+					(hands, acc) =>
+					{
+						def hands = hands.Split(' ').ToList();
+						//Console.WriteLine($"$(hands.FirstN(5)), $(hands.LastN(5)) => $(handValue(hands.FirstN(5)).ToString(\"X\")), $(handValue(hands.LastN(5)).ToString(\"X\"))");
+						acc + if (handValue(hands.FirstN(5)) > handValue(hands.LastN(5))) 1 else 0
+					})
+		}
+  }
+}

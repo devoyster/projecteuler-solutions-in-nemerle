@@ -1,0 +1,29 @@
+using System.Math;
+using System.Collections.Generic;
+using Nemerle.Collections;
+using Nemerle.Utility;
+
+class Task038 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		// We can't use 9 and 987654321 as seeds according to the task description.
+		// Also seed is slower then any other parts and we know that 918273645
+		// is not the biggest one. So seed can be 2, 3 or 4 digit: [91..98], [918..987], [9182..9876]
+		
+		def getPalindromic(acc, idx, seed)
+		{
+			| _ when acc.Length == 9 =>
+				def s = Set().ReplaceList(acc.ToCharArray().ToList());
+				if (!s.Contains('0') && s.Count == 9) int.Parse(acc) else 0
+			| _ when acc.Length > 9 => 0
+			| _ => getPalindromic(acc + (seed * idx).ToString(), idx + 1, seed)
+		}
+		def findMax(m, l)
+		{
+			l.FoldLeft(m, (x, acc) => Max(acc, getPalindromic("", 1, x)))
+		}
+		
+		findMax(findMax(findMax(0, $[91..98]), $[918..987]), $[9182..9876])
+  }
+}

@@ -1,0 +1,33 @@
+using System.Math;
+using System.Collections.Generic;
+
+class Task078 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def arr = List();
+		arr.Add(1);
+		arr.Add(1);
+
+		def getLen(n : int)
+		{
+			| _ when n < 0 => 0
+			| _ =>
+				when (arr.Count <= n)
+				{
+					def max = ((1.0 + Sqrt(24.0 * n + 1.0)) / 6.0) :> int;
+					def v = $[ ((k % 2) * 2 - 1) * (getLen(n - k * (3 * k - 1) / 2) + getLen(n - k * (3 * k + 1) / 2)), k in [1..max] ]
+						.FoldLeft(0, (x, a) => (x + a) % 1000000);
+					arr.Add(v)
+				}
+				arr[n]
+		}
+
+		def findMin(n)
+		{
+			if (getLen(n) == 0) n else findMin(n + 1)
+		}
+
+		findMin(2)
+  }
+}

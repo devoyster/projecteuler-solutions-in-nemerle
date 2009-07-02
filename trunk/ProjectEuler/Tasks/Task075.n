@@ -1,0 +1,22 @@
+using System.Math;
+using Nemerle.Utility;
+
+class Task075 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def maxN = 1000000;
+		def maxSqrt = Ceiling(Sqrt(maxN / 2)) :> int;
+		
+		def gcd(x, y)
+		{
+			if (y == 0) x else gcd(y, x % y)
+		}
+		def l = $[ 2 * m * (m + n), m in [1..maxSqrt], n in [1..maxSqrt],
+			m > n, (m + n) % 2 == 1, gcd(m, n) == 1 ].Filter(_ <= maxN);
+		
+		def arr = array(maxN + 1);
+		l.Iter(x => for (mutable i = x; i <= maxN; i += x) arr[i]++);
+		arr.Fold(0, (x, acc) => acc + if (x == 1) 1 else 0)
+  }
+}

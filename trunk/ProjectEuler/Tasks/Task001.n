@@ -1,0 +1,7 @@
+class Task001 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		$[x | x in [3..999], x % 3 == 0 || x % 5 == 0].FoldLeft(0, _ + _)
+  }
+}

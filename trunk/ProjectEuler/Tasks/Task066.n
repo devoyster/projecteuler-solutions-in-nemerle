@@ -1,0 +1,64 @@
+using System.Math;
+using Oyster.Math;
+
+class Task066 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def gcd(x, y)
+		{
+			if (y == 0) x else gcd(y, x % y)
+		}
+		def minimize(x, y)
+		{
+			def g = gcd(x, y);
+			(x / g, y / g)
+		}
+
+		def getSqrtCoefs(n : int)
+		{
+			def sqrt = Sqrt(n) :> int;
+			def calcPeriod(l, x, y)
+			{
+				| (_ :: _, _, _) when x == 1 && y == sqrt => l
+				| _ =>
+					def (_, nx) = minimize(x, n - y * y);
+					def ny = sqrt - (sqrt + y) % nx;
+					calcPeriod((sqrt + y) / nx :: l, nx, ny)
+			}
+			(sqrt, calcPeriod([], 1, sqrt).Rev().ToArray())
+		}
+		def findK(n : int)
+		{
+			match (Sqrt(n))
+			{
+				| x when x - Floor(x) > 0.0000001 =>
+					def (sqrt, coefs) = getSqrtCoefs(n);
+					def getIter(i, cnt) : IntX * IntX
+					{
+						def coef = if (i == 1) sqrt else coefs[(i - 2) % coefs.Length];
+						if (i == cnt)
+							(IntX(coef), IntX(1))
+						else
+						{
+							def (x, y) = getIter(i + 1, cnt);
+							(y + x * coef, x)
+						}
+					}
+					def firstMatching(cnt) : IntX
+					{
+						match (getIter(1, cnt))
+						{
+							| (x, y) when x * x - n * y * y == 1 => x
+							| _ => firstMatching(cnt + 1)
+						}
+					}
+					firstMatching(1)
+				| _ => IntX(0)
+			}
+		}
+
+		$[ (x, findK(x)), x in [2..1000] ]
+			.FoldLeft((0, IntX(0)), fun((x, k), (ax, ak)) { if (k > ak) (x, k) else (ax, ak) })[0]
+  }
+}

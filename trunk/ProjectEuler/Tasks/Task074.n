@@ -1,0 +1,38 @@
+using Nemerle.Collections;
+
+class Task074 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def fact = array(10);
+		fact[0] = 1;
+		for (mutable i = 1; i < fact.Length; i++)
+			fact[i] = i * fact[i - 1];
+		
+		def factSum(s, n)
+		{
+			| (_, 0) => s
+			| _ => factSum(s + fact[n % 10], n / 10)
+		}
+		
+		def chainLens = array(10000000);
+		[ (169, 3), (363601, 3), (1454, 3), (871, 2), (45361, 2), (872, 2), (45362, 2) ]
+			.Iter((x, y) => chainLens[x] = y);
+		def chainLen(n)
+		{
+			when (chainLens[n] == 0)
+			{
+				def s = factSum(0, n);
+				chainLens[n] = 1 + if (s != n) chainLen(s) else 0;
+			}
+			chainLens[n]
+		}
+		
+		def count60(cnt, n)
+		{
+			| (_, 1000000) => cnt
+			| _ => count60(cnt + if (chainLen(n) == 60) 1 else 0, n + 1)
+		}
+		count60(0, 3)
+  }
+}

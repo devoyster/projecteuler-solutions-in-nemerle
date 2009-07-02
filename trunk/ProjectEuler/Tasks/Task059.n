@@ -1,0 +1,36 @@
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
+using Nemerle.Collections;
+using Nemerle.Utility;
+
+class Task059 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def bytes = File.ReadAllText("cipher1.txt").Split(',').Map((x : string) => int.Parse(x) :> byte);
+		def words = Set([ "the", "of", "to", "and", "a", "in", "is", "it", "you", "that" ]);
+		
+		def matchCount(s)
+		{
+			s.Split(' ').Filter(s => words.Contains(s.Trim().ToLower())).Length
+		}
+		
+		def alow = 'a' :> byte;
+		def findKey(decip, cnt, key)
+		{
+			| (_, _, -1) => decip
+			| _ =>
+				def keyarr = array[ (key / 676) :> byte + alow, (key / 26 % 26) :> byte + alow, (key % 26) :> byte + alow ];
+				def d : array[byte] = array(bytes.Length);
+				for (mutable i = 0; i < bytes.Length; i++)
+					d[i] = (bytes[i] ^ keyarr[i % 3]) :> byte;
+				match (matchCount(Encoding.ASCII.GetString(d)))
+				{
+					| c when c > cnt => findKey(d, c, key - 1)
+					| _ => findKey(decip, cnt, key - 1)
+				}
+		}
+		findKey(null, 0, 26 * 26 * 26 - 1).Fold(0, (x : byte, acc) => acc + (x :> int))
+  }
+}

@@ -1,0 +1,29 @@
+class Task014 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		// Dynamic programming
+		def data = array(1000000);
+		data[1] = 1L;
+		
+		def pathLength(n)
+		{
+			if (n < 1000000L && data[n :> int] != 0L)
+				data[n :> int]
+			else
+			{
+				def len = pathLength(if (n % 2L == 0L) n / 2L else 3L * n + 1L) + 1L;
+				when (n < 1000000L) data[n :> int] = len;
+				len
+			}
+		}
+		def maxPathLength(maxidx, max, n)
+		{
+			| (_, _, 0L) => maxidx
+			| _ =>
+				def len = pathLength(n);
+				maxPathLength(if (len > max) n else maxidx, System.Math.Max(max, len), n - 1L)
+		}
+		maxPathLength(1L, 1L, 999999L) :> int
+  }
+}

@@ -1,0 +1,8 @@
+class Task079 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		// Calculated manually
+		73162890
+  }
+}

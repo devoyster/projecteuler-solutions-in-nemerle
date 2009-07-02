@@ -1,0 +1,15 @@
+using Nemerle.Collections;
+
+class Task033 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def (a, b) = $[ (x, y),
+			x in [10..99], y in [10..99],
+			x % 10 != 0, y % 10 != 0, x < y,
+			x % 10 == y / 10 || x % 10 == y % 10 || x / 10 == y / 10 || x / 10 == y % 10,
+			x * (y / 10) * (y % 10) == y * (x / 10) * (x % 10) ]
+			.FoldLeft((1, 1), fun((x, y), (a, b)) { (x * a, y * b) });
+		b / a
+  }
+}

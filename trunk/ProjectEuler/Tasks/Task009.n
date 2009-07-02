@@ -1,0 +1,19 @@
+using System.Math;
+using Nemerle.Utility;
+using Nemerle.Imperative;
+
+class Task009 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		for (mutable a = 1; a <= 500; a++)
+		{
+			for (mutable b = 1; b <= 500; b++)
+			{
+				def c = 1000 - a - b;
+				if (a * a + b * b == c * c) return a * b * c else continue;
+			}
+		}
+		0
+  }
+}

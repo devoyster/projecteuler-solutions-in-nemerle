@@ -1,0 +1,45 @@
+using System;
+using System.Collections.Generic;
+using Nemerle.Collections;
+
+class Task027 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def primes = List();
+		primes.Add(2);
+		primes.Add(3);
+
+		def generatePrimes(cand, max)
+		{
+			| (0, _) => generatePrimes(primes[primes.Count - 1], max)
+			| _ when cand > max => {}
+			| _ =>
+				when (primes.TrueForAll(x => cand % x != 0))
+					primes.Add(cand);
+				generatePrimes(cand + 2, max)
+		}
+		generatePrimes(0, 999 * 79 + 997);
+		
+		def primesSet = Set(primes);
+		
+		mutable max = 0;
+		mutable product = 0;
+		for (mutable i = 0; primes[i] < 1000; i++)
+		{
+			def p = primes[i];
+			for (mutable j = -p + 2; j <= 999; j += 2)
+			{
+				mutable n = 0;
+				while (primesSet.Contains(n * n + j * n + p))
+					n++;
+				when (n > max)
+				{
+					max = n;
+					product = p * j
+				}
+			}
+		}
+		product
+  }
+}

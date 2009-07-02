@@ -1,0 +1,25 @@
+using System.Collections.Generic;
+
+class Task010 : TaskBase
+{
+  override public Solve() : string
+  {
+		def l = List(500000);
+		def generatePrimes(acc : long, x : long, max : long)
+		{
+			| _ when x > max => acc
+			| _ =>
+				if (l.TrueForAll(p => x % p != 0))
+				{
+					l.Add(x);
+					generatePrimes(acc + x, x + 2, max)
+				}
+				else
+				{
+					generatePrimes(acc, x + 2, max)
+				}
+		};
+		// 37550402023
+		generatePrimes(2, 3, 1000000).ToString()
+  }
+}

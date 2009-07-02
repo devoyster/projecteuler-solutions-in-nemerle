@@ -1,0 +1,31 @@
+using System.Math;
+using Nemerle.Utility;
+
+class Task062 : TaskBase
+{
+  override public Solve() : string
+  {
+		def getSortedStr(n)
+		{
+			long.Parse(string(n.ToString().ToCharArray().SortInplace((x, y) => -x.CompareTo(y))))
+		}
+		def calcRes(b : long)
+		{
+			def cubes = $[ n * n * n, n in [(Ceiling(Pow(b, 1.0 / 3.0)) :> long)..(Floor(Pow(b * 10, 1.0 / 3.0)) :> long)]];
+			def cubes = cubes.Map(n => (n, getSortedStr(n)));
+			def findCube(l)
+			{
+				| (x, s) :: xs =>
+					match (xs.Partition((_, t) => t == s))
+					{
+						| (p1, _) when p1.Length == 4 => x
+						| (_, p2) => findCube(p2)
+					}
+				| _ => calcRes(b * 10)
+			}
+			findCube(cubes)
+		}
+
+		calcRes(100000000L).ToString()
+  }
+}

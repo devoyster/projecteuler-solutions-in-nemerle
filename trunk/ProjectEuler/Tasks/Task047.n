@@ -1,0 +1,58 @@
+using System.Math;
+using System.Collections.Generic;
+
+class Task047 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def primes = List();
+		
+		def isPrime(n : int)
+		{
+			def sqrt = Sqrt(n) :> int;
+			
+			def primesCount = primes.Count;
+			mutable isPrime = true;
+			for (mutable i = 0; i < primesCount && primes[i] <= sqrt && isPrime; i++)
+				isPrime = n % primes[i] != 0;
+			isPrime
+		}
+		
+		def primeFactors(l, n : int)
+		{
+			def sqrt = Sqrt(n) :> int;
+			match (primes.Find(x => x > sqrt || n % x == 0))
+			{
+				| 0 => l
+				| x when x > sqrt => n :: l
+				| x =>
+					primeFactors(
+						match (l)
+						{
+							| (y :: t) when y == x => l
+							| _ => x :: l
+						},
+						n / x)
+			}
+		}
+		
+		// Generate primes
+		mutable i = 3;
+		mutable cnt = 0;
+		primes.Add(2);
+		for (; cnt < 4; i++)
+		{
+			if (isPrime(i))
+			{
+				primes.Add(i);
+				cnt = 0
+			}
+			else if (primeFactors([], i).Length != 4)
+				cnt = 0
+			else
+				cnt++
+		}
+		
+		i - 4
+  }
+}

@@ -1,0 +1,16 @@
+class Task040 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		// counts:  10, 180, 2700, 36000, 450000, 5400000
+		// indexes:  0,  10,  190,  2890,  38890,  488890
+		// d1       = 1
+		// d10      = 1
+		// d100     = 5 (1st digit from "55")
+		// d1000    = 3 (1st digit from "370")
+		// d10000   = 7 (3rd digit from "2777")
+		// d100000  = 2 (1st digit from "22222")
+		// d1000000 = 1 (1st digit from "185185")
+		1 * 1 * 5 * 3 * 7 * 2 * 1
+  }
+}

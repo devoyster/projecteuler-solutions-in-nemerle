@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using Nemerle.Collections;
+
+class Task060 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def primes = List();
+		primes.Add(2);
+		primes.Add(3);
+		
+		def isPrime(n : long)
+		{
+			def max = Math.Sqrt(n) :> int;
+			
+			mutable primeFlag = true;
+			def primesCount = primes.Count;
+			for (mutable i = 0; i < primesCount && primes[i] <= max && primeFlag; i++)
+				primeFlag = n % primes[i] != 0;
+			primeFlag
+		}
+		
+		def maxPrime = 10000;
+		for (mutable i = primes[primes.Count - 1] + 2; i <= maxPrime; i++)
+			when (isPrime(i))
+				primes.Add(i);
+		
+		def veryBigValue = maxPrime * 4 * 100;
+		
+		def getNextBase(n, b)
+		{
+			| (0, _) => b
+			| _ => getNextBase(n / 10, b * 10)
+		}
+		def areConcatable(x, y)
+		{
+			x < y && isPrime(x * getNextBase(y, 1) + y) && isPrime(y * getNextBase(x, 1) + x)
+		}
+		def minConcatableSum(i, l)
+		{
+			| (_, []) => veryBigValue
+			| (0, x :: _) => x
+			| _ =>
+				l.FoldLeft(
+					veryBigValue,
+					(x, acc) => Math.Min(acc, x + minConcatableSum(i - 1, l.Filter(areConcatable(x, _)))))
+		}
+		minConcatableSum(4, primes.ToList())
+  }
+}

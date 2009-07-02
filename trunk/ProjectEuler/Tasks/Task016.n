@@ -1,0 +1,10 @@
+using Nemerle.Utility;
+using Oyster.Math;
+
+class Task016 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		IntX.Pow(2, 1000).ToString().Fold(0, (ch, acc) => acc + int.Parse(ch.ToString()))
+  }
+}

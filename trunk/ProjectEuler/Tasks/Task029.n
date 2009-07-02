@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+using Nemerle.Collections;
+
+class Task029 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def primes = List();
+		primes.Add(2);
+		primes.Add(3);
+
+		def generatePrimes(cand, max)
+		{
+			| (0, _) => generatePrimes(primes[primes.Count - 1], max)
+			| _ when cand > max => {}
+			| _ =>
+				when (primes.TrueForAll(x => cand % x != 0))
+					primes.Add(cand);
+				generatePrimes(cand + 2, max)
+		}
+
+		def maxValue = 100;
+		generatePrimes(0, maxValue);
+
+		def primeFactors(l, n)
+		{
+			match (primes.Find(x => n % x == 0))
+			{
+				| 0 => l
+				| x =>
+					primeFactors(
+						match (l)
+						{
+							| ((y, c) :: t) when y == x => (y, c + 1) :: t
+							| _ => (x, 1) :: l
+						},
+						n / x)
+			}
+		}
+		
+		mutable listSet = [];
+		for (mutable i = 2; i <= 100; ++i)
+		{
+			def factors = primeFactors([], i);
+			for (mutable j = 2; j <= 100; ++j)
+			{
+				def mapped = factors.Map((p, c) => (p, c * j));
+				when (!listSet.Contains(mapped))
+					listSet ::= mapped
+			}
+		}
+		listSet.Length
+  }
+}

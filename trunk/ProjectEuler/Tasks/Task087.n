@@ -1,0 +1,40 @@
+using System.Collections.Generic;
+using System.Math;
+using Nemerle.Collections;
+
+class Task087 : TaskBase
+{
+	override public SolveInt() : int
+  {
+		def max = 50000000 - 1;
+		
+		def primes = List([ 2 ]);
+		def maxPrime = Sqrt(max) :> int;
+		for (mutable i = 3; i <= maxPrime; i += 2)
+		{
+			mutable isPrime = true;
+			def maxCheck = Sqrt(i) :> int;
+			for (mutable j = 0; j < primes.Count && primes[j] <= maxCheck && isPrime; j++)
+				isPrime = i % primes[j] != 0;
+			when (isPrime)
+				primes.Add(i)
+		}
+		def pl = primes.ToList();
+		
+		def lim = Pow(max, 0.25) :> int;
+		$[ x, x in pl, x <= lim ].FoldLeft(Set(),
+			(x, a) =>
+			{
+				def x4 = x * x * x * x;
+				def max = max - x4;
+				def lim = Pow(max, 1.0 / 3.0) :> int;
+				$[ x, x in pl, x <= lim ].FoldLeft(a,
+					(x, a) =>
+					{
+						def x3 = x * x * x;
+						def lim = Sqrt(max - x3) :> int;
+						$[ x, x in pl, x <= lim ].FoldLeft(a, (x, a) => a.Replace(x * x + x3 + x4))
+					})
+			}).Count
+  }
+}

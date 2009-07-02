@@ -1,0 +1,12 @@
+abstract class TaskBase
+{
+  virtual public Solve() : string
+  {
+		SolveInt().ToString()
+  }
+  
+  virtual public SolveInt() : int
+  {
+		0
+  }
+}

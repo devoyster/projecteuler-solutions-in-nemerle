@@ -1,0 +1,28 @@
+class Task086 : TaskBase
+{
+	override public SolveInt() : int
+  {
+		// Since length of the shortest path in a * b * c cuboid is sqrt(a ^ 2 + (b + c) ^ 2)
+		// where a is the biggest side (to get the smallest length), this is actually the task about
+		// the pythagorean triple
+		def relPrime(x, y)
+		{
+			if (y == 0) x == 1 else relPrime(y, x % y)
+		}
+		
+		def max = 2000000;
+		def arr = array(max + 1);
+		def l = $[1..1000];
+		def l = $[ (m * m - n * n, 2 * m * n), m in l, n in l, m > n, (m + n) % 2 == 1, relPrime(m, n) ];
+		l.Append(l.Map((x, y) => (y, x)))
+			.Filter((x, y) => 2 * x >= y)
+			.Iter((x, y) => $[1..(max / x)].Iter(a => arr[x * a] += if (y > x) a * (2 * x - y) / 2 + 1 else a * y / 2));
+		
+		mutable sum = 0;
+		mutable i;
+		for (i = 0; i <= arr.Length && sum < 1000000; i++)
+			sum += arr[i];
+		
+		i - 1
+  }
+}

@@ -1,0 +1,26 @@
+using System;
+using System.IO;
+using System.Math;
+using Nemerle.Utility;
+
+class Task081 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def arr = File.ReadAllText("matrix.txt")
+			.Split(array[ Environment.NewLine ], StringSplitOptions.RemoveEmptyEntries)
+			.Map(s => s.Split(',').Map(int.Parse));
+		
+		def lastIndex = arr.Length - 1;
+		for (mutable i = lastIndex - 1; i >= 0; i--)
+		{
+			arr[i][lastIndex] += arr[i + 1][lastIndex];
+			arr[lastIndex][i] += arr[lastIndex][i + 1]
+		}
+		for (mutable i = lastIndex - 1; i >= 0; i--)
+			for (mutable j = lastIndex - 1; j >= 0; j--)
+				arr[i][j] += Min(arr[i][j + 1], arr[i + 1][j]);
+		
+		arr[0][0]
+  }
+}

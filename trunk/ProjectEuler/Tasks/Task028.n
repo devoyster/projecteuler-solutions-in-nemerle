@@ -1,0 +1,14 @@
+class Task028 : TaskBase
+{
+  override public SolveInt() : int
+  {
+		def spiralSum(acc, n)
+		{
+			| (_, 0) => acc
+			| _ =>
+				def n2 = 2 * n + 1;
+				spiralSum(acc + 2 * n2 * n2 - 3 * n2 + 3, n - 1)
+		}
+		spiralSum(0, 500) * 2 + 1
+  }
+}
